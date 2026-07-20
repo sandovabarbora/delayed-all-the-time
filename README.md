@@ -27,13 +27,13 @@ Every musical decision comes from the data — nothing is random:
 | element | data source |
 |---|---|
 | tempo grid | 288 five-minute windows of one day = 288 beats at 116 BPM (24 h ≈ 2.5 min) |
-| kick drum + bass | metro stop events (avg delay 9 s — the most reliable pulse in the city; when the metro closes at night the beat literally stops, and the first morning train is the drop) |
+| kick drum + bass | metro stop events (avg delay 7 s on a typical weekday — the most reliable pulse in the city; when the metro closes at night the beat literally stops, and the first morning train is the drop) |
 | hi-hats + guitar plucks | tram stop events |
 | chord stabs | bus stop events (557k/day on a weekday — the backbone); chord detune in cents grows with the current bus delay |
 | claps + cowbell | trolleybus stop events |
 | bell | ferry stop events (3 rings on a typical Tuesday; dozens in summer) |
 | lead melody ("Voice of the City") | city-wide average surface delay, quantised to the day's scale — the later Prague runs, the higher it sings |
-| trains | kicked out of the band: averaging 123 s late, they played too far out of tune (still shown in the chart) |
+| trains | kicked out of the band: averaging 111 s late on a typical weekday, they played too far out of tune (still shown in the chart) |
 
 **Song structure is data-driven.** The chorus is not triggered by the clock: whenever the smoothed,
 event-weighted average delay of surface transport (bus + tram + trolleybus) exceeds **68 % of that
