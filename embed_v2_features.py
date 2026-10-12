@@ -18,7 +18,7 @@ Dropped on purpose: per-mode z, p50/p90, per-day persistence and the west/east
 geography (its split is skewed ~70/30 by regional stops, see the docs).
 
 Usage:
-    python embed_v2_features.py ../sonif-v2/sonification_v2.json
+    python embed_v2_features.py sonification_v2.json
 """
 import json
 import re
@@ -88,4 +88,4 @@ def main(src):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1] if len(sys.argv) > 1 else "../sonif-v2/sonification_v2.json")
+    main(sys.argv[1] if len(sys.argv) > 1 else Path(__file__).with_name("sonification_v2.json"))

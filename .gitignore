@@ -4,3 +4,5 @@ __pycache__/
 .venv/
 *.duckdb
 *.db
+sonification_v2.json
+gtfs/
