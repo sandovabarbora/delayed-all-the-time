@@ -1,14 +1,15 @@
 # Engine v2
 
-Engine v2 is the default; v1 stays available through the `engine v1 | v2` toggle and is unchanged (README).
+Engine v2 is the default; v1 stays available through the `engine v1 | v2` toggle and is unchanged.
 v2 maps the data to arrangement, groove, harmony and timbre, so the five days sound clearly different.
+It has two layers: **FORM** (verse, pre-chorus, drop, chorus) from the day's own delay curve, and **MOOD** (density, groove, harmony, timbre) from the anomaly against a normal day. Form says *when* the track lifts; mood says how dark, dense and tense it is when it does.
 
 **Rules.**
 - **Deterministic.** The noise behind hats and reverb uses a seeded generator, and the pad LFO is a plain oscillator, so a render of the same day is always identical.
 - **Grounded in music theory.**
 - **Thresholds fixed a priori**, in robust SD or percent. None was tuned by listening to the five days. The one exception in timing is the night-window rule, added after review (see Changes).
 
-All constants are in `const V2` and `const TIMBRE` in `index.html`.
+All constants are in `const V2`, `const TIMBRE`, `const HOOK_C` and `chorusPair` in `index.html`.
 
 ## Data used
 
@@ -35,11 +36,59 @@ Dropped:
   - At the default scale (one 5-min window = one beat), one bar covers 20 minutes of data.
   - At the `1 bar` scale, one bar is one window.
 
+## Form (song structure)
+
+Added 12 October 2026 (see Changes). Computed per bar, from the values at the bar's downbeat window, at both scales.
+
+- **Chorus.** A bar is a chorus bar when its downbeat window's smoothed surface delay (the v1 curve: event-weighted bus, tram and trolleybus mean delay, centred over 5 windows) is at or above the **day's 75th percentile** of that curve (`V2.CHORUS_Q`). The percentile is taken over reliable windows only, those with ≥ 1 000 surface stop events, the same rule as for z; a window below that can never be chorus. Linear interpolation between order statistics.
+- **Length.** Verse gaps shorter than 2 bars between chorus bars are merged into the chorus first; then chorus runs shorter than 2 bars are dropped (`CHORUS_GAP`, `CHORUS_MIN`).
+- **Pre-chorus** = the 2 bars before each chorus (`PRE`): a riser over both bars, an 8th-note snare roll in bar 1 and a 16th-note roll in bar 2, both in crescendo; the last beat before the drop is empty except for the snare, pad and lead. The extreme-state breakdown and the half-time triplet fill do not play in form bars; the pre-chorus is the build. The second half of the last pre-chorus bar plays the chorus's V-slot chord, a half cadence into the tonic.
+- **Drop** = the first chorus bar: crash and a sub impact (sine 70 → 32 Hz), with kick, bass, pad and the hook only. The upper groove (hats, clap, stabs, plucks, arp, shaker, cowbell) enters on the next bar.
+- **Verse** = everything else.
+- **Arrangement.** Chorus bars (including the drop) play one density state above the mood state: sparse → full, full → lifted, lifted → extreme, extreme stays extreme. The density trim follows. The mood layer still sets groove, harmonic rung and timbre, so a calm Easter chorus is light and on the tonic, and a Meltdown chorus is dense and dark.
+- **Grid.** The acid strip above the grid shows the chorus (form) again; the pre-chorus is the same strip at 35 %. The groove · density row still shows the mood state.
+
+**Why the 75th percentile.** A round share fixed before any render: the chorus is the worst quarter of the day's own reliable windows. It replaces v1's hand-set 68 % of the day's peak, which depends on a single maximum. By construction every day gets about a quarter of its service day as chorus; *where* it falls is the data. It was not tuned by listening.
+
+**The hook.** One fixed 4-bar motif, the same every day, transposed to the day's mode (scale degrees, 1 = D):
+
+| bar | degrees | 16th positions (lengths) |
+|---|---|---|
+| 1 | 1 – 3 – 5 | 0 (3) · 3 (3) · 6 (6) |
+| 2 | 4 – 3 – 2 | 0 (3) · 3 (3) · 6 (6) |
+| 3 | 3 – 4 – 5 | 0 (3) · 3 (3) · 6 (6) |
+| 4 | 4 – 3 – 2 – 1 | 0 (3) · 3 (3) · 6 (2) · 8 (8) |
+
+- A tresillo (3 + 3 + 2) rhythm in every bar; the melody outlines 1-3-5 and walks 4-3-2-1 home.
+- It sings from D5 (`HOOK_BASE` 74) on the main lead voice, and repeats every 4 bars from the drop for as long as the chorus lasts. Each degree takes the chord-scale (the day's scale with the current chord's tones replacing degrees of the same letter, as for the data melody), so it never clashes with the harmony.
+- In the verse the lead keeps the data melody. In the chorus the data melody moves an octave down to the second (square) voice as a counter-line; the diatonic third below is not played there.
+
+**Chorus progression.** One chord per bar, restarting at the drop, aligned with the hook: **T – V – Ts – S**. In the major modes this is I–V–vi–IV (lydian: I–V–vi–II, since S is II there); in the minor modes i–V–III–iv. T, Ts and S are the existing chords and voicings. The harmonic rung changes only the V slot (and, from rung 3, the S slot's second half):
+
+| rung | V slot | S slot |
+|---|---|---|
+| 0–1 | V5: the diatonic seventh on degree 5 (Amaj7 lydian, A7 ionian, Am7 dorian and aeolian; A7 in phrygian, whose diatonic v is diminished) | S |
+| 2 | D (A7) | S |
+| 3 | Dt | S, then Dt on the half bar |
+| 4 | E7 (V/V), then Dt on the half bar | S, then Dt on the half bar |
+
+Voice leading is unchanged (least motion, no crossing, no parallel fifths or octaves: checked 0 on all days, both scales). The verse keeps the ladder cells and the cadence rule.
+
+**Chorus time per day** (chorus incl. drop; pre-chorus not counted):
+
+| day | 75th pct of smoothed delay | 5 min = 1 beat (20-min bars) | 5 min = 1 bar |
+|---|---|---|---|
+| Typical Tuesday | 103 s | 300 min: 07:40–10:00, 15:00–17:40 | 295 min |
+| The Meltdown | 193 s | 260 min: 14:40–19:00 | 295 min (incl. 07:55–08:20) |
+| Easter Monday | 45 s | 280 min: 14:20–19:00 | 295 min |
+| Back to School | 98 s | 300 min: 07:20–12:20 | 295 min |
+| Summer Sunday | 56 s | 320 min: 12:20–13:00, 14:20–19:00 | 290 min |
+
 ## Mapping table
 
 | musical dimension | data | states and thresholds | what changes |
 |---|---|---|---|
-| **density** | running z | sparse < 0 · full 0–1 · lifted 1–2 · extreme ≥ 2. Enter at 0 / 1 / 2, leave below −0.5 / 0.5 / 1.5 (0.5 SD hysteresis). May jump several states. | **sparse:** kick, bass and pad only, master trim −5 dB. **full:** + hats, clap, stabs, plucks, lead (−2 dB). **lifted:** + arp, shaker, second lead voice a diatonic third below, open hats, 16th ghost hats, cowbell when trolleybus traffic is dense (−1 dB). **extreme:** on entry a 2-bar breakdown (kick, bass and drums drop; pad, lead and a riser; snare roll in the last two beats), then everything, with cowbell always (0 dB). A crash marks every entry into lifted or extreme. |
+| **density** (mood) | running z | sparse < 0 · full 0–1 · lifted 1–2 · extreme ≥ 2. Enter at 0 / 1 / 2, leave below −0.5 / 0.5 / 1.5 (0.5 SD hysteresis). May jump several states. | **sparse:** kick, bass and pad only, master trim −5 dB. **full:** + hats, clap, stabs, plucks, lead (−2 dB). **lifted:** + arp, shaker, second lead voice a diatonic third below, open hats, 16th ghost hats, cowbell when trolleybus traffic is dense (−1 dB). **extreme:** on entry a 2-bar breakdown (kick, bass and drums drop; pad, lead and a riser; snare roll in the last two beats), then everything, with cowbell always (0 dB). A crash marks every entry into lifted or extreme. In the chorus the arrangement is one state higher (Form). |
 | **groove** (primary rhythm) | running share > 90 s late | straight < 10 % · swung 10–25 % · half-time > 25 %. Leave below 7.5 % / 22.5 %. | **straight:** 16ths on the grid. **swung:** odd 16ths 0.24 of a 16th late (62 % swing). **half-time:** kick on 1 and the "and" of 2, clap on 3, 8th hats, sparser bass, stabs and plucks; the last two beats of every 4-bar loop are a triplet fill (16th-triplet hats, 8th-triplet snares). |
 | **harmony** | running z | rungs at z ≥ 0.5 / 1 / 2 / 3, leave below 0 / 0.5 / 1.5 / 2.5. Climb at most one rung per bar. | **0 tonic:** T · Ts. **1 subdominant:** T · S. **2 dominant:** S · D. **3 dominant + tensions:** (S Dt) · Dt. **4 secondary dominants:** (E7 Dt) · (G♯°7 Dt). The cell alternates every bar, so the chord changes every bar; rungs 3–4 also change on the half bar. A fall from rung ≥ 2 to ≤ 1 plays a | Dt | T | cadence bar. |
 | **timbre** | harmonic rung | fixed table, below | music-bus low-pass, pad filter centre, saturation drive |
@@ -116,6 +165,11 @@ The v2 palette is techno, separate from v1's disco.
 - No render has a sample above −0.3 dBFS.
 
 ## Changes
+
+**12 October 2026: a real chorus again (FORM layer).**
+- **Why.** Bára's listening feedback on the v2 renders: "it feels like we're missing a chorus". v2 had replaced v1's chorus with anomaly states, so a typical day barely lifted and a calm day never did.
+- **Rule.** Chorus = bars whose smoothed surface delay is in the day's top quartile (≥ 75th percentile of reliable windows, ≥ 1 000 surface events), at least 2 bars, gaps under 2 bars merged; a 2-bar pre-chorus, a 1-bar drop on entry, verse elsewhere. The chorus plays one density state above the mood, sings a fixed 4-bar hook, and runs a fixed T–V–Ts–S progression whose V slot follows the harmonic rung. Details under Form.
+- **Fixed before rendering.** The quartile, the 2-bar lengths, the hook and the progression were fixed before any v2c render was made and were not adjusted after listening.
 
 **12 October 2026: night windows count as normal.**
 - **What was found.** An independent review of the first v2 states found that night windows with few events, about 250–450 surface stop events per 5 minutes, produced noise-sized z values. The holidays turned lifted at 03:40–04:40, the Meltdown at 00:00–01:00, and the typical Tuesday at 04:00 and around 23:10. The extractor's guard (n ≥ 5 per cell) does not exclude these windows.
