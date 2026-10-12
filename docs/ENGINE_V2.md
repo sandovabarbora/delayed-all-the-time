@@ -6,7 +6,7 @@ v2 maps the data to arrangement, groove, harmony and timbre, so the five days so
 **Rules.**
 - **Deterministic.** The noise behind hats and reverb uses a seeded generator, and the pad LFO is a plain oscillator, so a render of the same day is always identical.
 - **Grounded in music theory.**
-- **Thresholds fixed a priori**, in robust SD or percent. None was tuned by listening to the five days.
+- **Thresholds fixed a priori**, in robust SD or percent. None was tuned by listening to the five days. The one exception in timing is the night-window rule, added after review (see Changes).
 
 All constants are in `const V2` and `const TIMBRE` in `index.html`.
 
@@ -27,7 +27,8 @@ Dropped:
 
 ## Running values, evaluated per bar
 
-- **Running z** is the 5-minute surface z smoothed over 3 windows (centred, undefined windows skipped).
+- **Reliable windows only.** A window's surface z counts only if the window has at least 1 000 bus, tram and trolleybus stop events (`V2.MIN_SURF_N`). A window below that is treated as z = 0, the normal day, for density, harmony and timbre. Groove is unaffected, since it uses shares. See Changes below.
+- **Running z** is the 5-minute surface z (after the rule above) smoothed over 3 windows (centred, undefined windows skipped).
 - **Running lateness** = Σ n·(l90 + l180) / Σ n over bus, tram and trolleybus and the same 3 windows. `n` is the event count from the v1 data.
 - **Every state is decided once per bar** from the values at the bar's downbeat window, with hysteresis.
 - **Two scales:**
@@ -113,3 +114,13 @@ The v2 palette is techno, separate from v1's disco.
 - `renderOffline({engine, day, startBin, seconds, bpm, binBeats})` renders with an OfflineAudioContext in headless Chromium.
 - Review set: 07:00–09:30 at 120 BPM, one bar per 5-min window (30 bars = 60 s), default volume 85 %.
 - No render has a sample above −0.3 dBFS.
+
+## Changes
+
+**12 October 2026: night windows count as normal.**
+- **What was found.** An independent review of the first v2 states found that night windows with few events, about 250–450 surface stop events per 5 minutes, produced noise-sized z values. The holidays turned lifted at 03:40–04:40, the Meltdown at 00:00–01:00, and the typical Tuesday at 04:00 and around 23:10. The extractor's guard (n ≥ 5 per cell) does not exclude these windows.
+- **Rule.** A window's z counts only with at least 1 000 surface stop events; otherwise z = 0 for density, harmony and timbre.
+- **Why a count and not a standard-error rule.** The preferred rule, SE of the window mean ≤ 0.5 × spread, needs the per-event dispersion of each window. That dispersion is not in the published aggregates, so the rule could not be checked from this repository. The event count is published (`sonification_days.json`), so the count rule can be checked from the repository.
+- **Where 1 000 falls.** On all five days every window between 06:00 and 22:00 has at least 1 201 surface stop events. Windows below 1 000 are the night, about 00:00–05:00, plus 23:05 on the typical Tuesday.
+- **Not tuned to the music.** The rule was chosen after the review found the noise, so it is post hoc. Its value was fixed as a round count from the event counts alone, and it was not adjusted to change how any of the five days sounds.
+

@@ -838,6 +838,7 @@ const V2 = {
   TRIM_DB:[-5,-2,-1,0],                   // master trim by density state (dB)
   SEC_PER_STEP:30, LEAD_BASE:62, LEAD_TOP:14, LEAD_DATA_TOP:10, MAX_LEAP:4,
   FB_MAX:0.55, VOICE_LO:55, VOICE_HI:76,
+  MIN_SURF_N:1000,                        // a window's z counts only with ≥ 1 000 surface stop events; else z = 0 (docs: Changes)
 };
 // timbre by harmonic rung (fixed table): music-bus low-pass, pad filter centre, saturation drive
 const TIMBRE=[
@@ -915,7 +916,10 @@ function cmp(a,b){ for (let i=0;i<a.length;i++) if (a[i]!==b[i]) return a[i]-b[i
 
 // ---- per day (data time; independent of tempo and scale) ----
 function computeV2(raw, d1){
-  const dv=DATA2.days[raw.id], z=dv.z;
+  const dv=DATA2.days[raw.id];
+  // reliability: a window with fewer than MIN_SURF_N bus + tram + trolleybus stop events (the night) counts as normal, z = 0
+  const nSurf=i=>["autobus","tramvaj","trolejbus"].reduce((a,m)=>a+d1.gd(m,i,"n"),0);
+  const z=dv.z.map((v,i)=>v===null?null:(nSurf(i)>=V2.MIN_SURF_N?v:0));
   // running z: each 5-minute z smoothed over 3 windows (centred), undefined windows skipped
   const zr=new Float32Array(BINS);
   for (let i=0;i<BINS;i++){ let s=0,c=0;
