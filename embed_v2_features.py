@@ -5,11 +5,11 @@ Input: sonification_v2.json written by the thesis extractor `extract_v2.py`
 
   z     per day: the network-level ("surface": bus + tram + trolleybus) anomaly
         z per 5-minute bin, rounded to 0.01. null where undefined.
-  cls   per day x mode (metro, tram, bus, trolleybus): the lateness-class shares
-        l30 (30-90 s], l90 (90-180 s], l180 (>180 s) per bin. Encoded as three
+  cls   per day x mode (tram, bus, trolleybus): the lateness-class shares
+        l30 (30-90 s], l90 (90-180 s], l180 (>180 s) per bin. The engine pools
+        l90 + l180 over the three surface modes into the groove state. Encoded as three
         characters per bin from the base64 alphabet, value = round(pct / 2), so
         the resolution is 2 percentage points. "..." marks a bin with no events.
-        Early and on-time shares are not needed: both stay on the grid.
   pers  lag-1 persistence r per local hour over the whole period (173 days):
         tram, and surface = event-weighted mean of bus, tram and trolleybus r.
         Hours where r is undefined (n < 30) fall back to the pooled r_all.
@@ -26,7 +26,7 @@ import sys
 from pathlib import Path
 
 B64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
-CLS_MODES = ["metro", "tramvaj", "autobus", "trolejbus"]
+CLS_MODES = ["tramvaj", "autobus", "trolejbus"]
 SURFACE = ["autobus", "tramvaj", "trolejbus"]
 
 

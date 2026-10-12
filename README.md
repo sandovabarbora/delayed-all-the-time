@@ -62,17 +62,18 @@ wide) with a −4.5 dB high-shelf at 6 kHz.
 ## Engine v2
 
 The player has two engines (toggle `engine v1 | v2`; v2 is the default). The section above
-describes v1. v2 uses v2 data features: anomaly z against a normal day of the same type, lateness
-classes and delay persistence. It turns them into music:
+describes v1. v2 is a techno engine driven by the v2 data features:
 
-- **Rhythm:** lateness displaces each mode's hits inside the metre (laid back, a 16th late, triplet).
-- **Harmony:** z climbs a functional ladder (tonic → subdominant → dominant → tensions →
-  secondary dominants), with hysteresis, voice-led pads and cadences on the way down.
-- **Echo:** persistence sets the feedback of a dotted-eighth echo.
-- **Chorus:** starts only when z > +1.
+- **Density.** The network's delay against a normal day of the same type (z) sets the
+  arrangement: sparse, full, lifted, or extreme with a breakdown.
+- **Groove.** The share of stops more than 90 s late sets it: straight, swung, or half-time.
+- **Harmony and timbre.** z climbs a functional harmonic ladder with one chord per bar,
+  voice-led pads and cadences on the way down; each rung is brighter and more driven than
+  the last.
+- **Echo.** Delay persistence sets the feedback of a dotted-eighth echo.
 
 Every mapping and number is in [docs/ENGINE_V2.md](docs/ENGINE_V2.md). `embed_v2_features.py`
-embeds the features the engine uses (about 26 KB, aggregates only) from `sonification_v2.json`.
+embeds the features the engine uses (about 22 KB, aggregates only) from `sonification_v2.json`.
 
 ## Reproducing the aggregates
 
