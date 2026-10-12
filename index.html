@@ -4,207 +4,320 @@
 <meta charset="utf-8">
 <title>Delayed All the Time. On Time, Occasionally.</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#161616">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500&family=JetBrains+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,400&display=swap" rel="stylesheet">
 <style>
+/* bsandova.com techno register: concrete, mono labels, a serif title, one acid accent.
+   Bus, tram and trolley colours are the site's; metro, ferry, trains and the voice are quiet neutrals.
+   Acid green marks only the chorus, the playhead and hovered rows. */
 :root{
   color-scheme: dark;
-  --bg:#130814; --panel:#1C0E20; --panel2:#261329; --line:#3B2142;
-  --ink:#F7EEE6; --muted:#A78BA3; --accent:#FF4D6D; --gold:#F5C04E; --blush:#FFB3C7;
-  --c-metro:#34D97B; --c-tramvaj:#FF5A48; --c-autobus:#4E9BFF;
-  --c-vlak:#F2C14E; --c-trolejbus:#B57BFF; --c-privoz:#4DD8E6; --c-mesto:#FF4D6D;
-  --display: "Futura", "Avenir Next Condensed", "Trebuchet MS", "Arial Narrow", sans-serif;
-  --body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --bg:#161616; --bg-2:#1F1F1F; --fg:#DCDCD6; --fg-2:#8E8E88; --line:#3A3A36; --hot:#F2F2EE;
+  --acid:#D6FF3A; --on-acid:#161616;
+  --c-autobus:#FF6A3D; --c-tramvaj:#7ED9A6; --c-trolejbus:#B78CFF;
+  --c-metro:#E4E4DE; --c-privoz:#8FA6B2; --c-vlak:#5C5C57; --c-mesto:#B3ADA3;
+  --mono:"JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --sans:"Space Grotesk", -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --serif:"Fraunces", Georgia, serif;
+  --pad:clamp(16px,3vw,40px);
+  --lab:9.5rem; --rh:24px; --strip:8px;
 }
-/* deliberately single-theme: this page is a night club, it stays dark in both themes */
+/* single theme on purpose: the site's techno register is dark */
 :root[data-theme="light"], :root[data-theme="dark"]{ color-scheme: dark; }
-html,body{background:var(--bg);color:var(--ink);font-family:var(--body);margin:0;}
-body{line-height:1.55;}
-/* chorus lights */
-body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0;
-  background:
-    radial-gradient(42% 34% at 12% 8%, rgba(255,77,109,.34), transparent 70%),
-    radial-gradient(40% 30% at 88% 14%, rgba(245,192,78,.26), transparent 70%),
-    radial-gradient(50% 36% at 50% 100%, rgba(255,179,199,.16), transparent 72%);
-  transition:opacity 1.2s;}
-body.refren::before{opacity:1;}
-/* disco-ball glitter, chorus only */
-body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0;transition:opacity 1.2s;
-  background-image:
-    radial-gradient(circle, rgba(255,255,255,.9) 0 1px, transparent 1.6px),
-    radial-gradient(circle, rgba(245,192,78,.85) 0 1px, transparent 1.6px),
-    radial-gradient(circle, rgba(255,179,199,.85) 0 1.2px, transparent 1.9px);
-  background-size:240px 240px, 330px 330px, 410px 410px;
-  background-position:20px 40px, 140px 210px, 70px 130px;}
-body.refren::after{opacity:.3;}
-@media (prefers-reduced-motion: no-preference){
-  body.refren.hraje::before{animation:lights 3.2s ease-in-out infinite alternate;}
-  @keyframes lights{from{filter:hue-rotate(0deg);opacity:.75;}to{filter:hue-rotate(24deg);opacity:1;}}
-  body.refren.hraje::after{animation:twinkle 2.4s ease-in-out infinite alternate;}
-  @keyframes twinkle{from{opacity:.14;}to{opacity:.42;}}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--fg);overflow-x:clip}
+body{font:400 15px/1.5 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+::selection{background:var(--acid);color:var(--on-acid)}
+:focus-visible{outline:1px solid var(--hot);outline-offset:2px}
+.mono,.lbl{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--fg-2)}
+.wrap{max-width:1180px;margin:0 auto;padding:0 var(--pad) 64px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* head */
+.bar{display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--line)}
+.bar b{color:var(--fg);font-weight:400}
+.head{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:24px 48px;padding:40px 0 32px;align-items:end}
+h1{font:400 clamp(36px,5.6vw,72px)/.98 var(--serif);font-variation-settings:"opsz" 144;letter-spacing:-.03em;color:var(--hot);margin:0}
+h1 em{font-style:italic;color:var(--fg-2)}
+.lead{margin:0;max-width:52ch;color:var(--fg)}
+.lead b{font-weight:500;color:var(--hot)}
+
+/* section labels */
+h2{font:400 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--fg-2);margin:0;padding:10px 0;border-bottom:1px solid var(--line)}
+section{margin-top:40px}
+
+/* day list */
+.days{list-style:none;margin:0;padding:0}
+.days button{all:unset;box-sizing:border-box;cursor:pointer;width:100%;display:grid;
+  grid-template-columns:2.5rem minmax(0,1fr) 10rem 7rem;gap:16px;align-items:baseline;
+  padding:12px 8px;border-bottom:1px solid var(--line);min-height:44px}
+.days .i,.days .dt,.days .md{font:400 11px var(--mono);letter-spacing:.1em;color:var(--fg-2);text-transform:uppercase}
+.days .md{text-align:right;font-variant-numeric:tabular-nums;letter-spacing:.04em;text-transform:none}
+.days .nm{color:var(--fg);font-size:17px;letter-spacing:-.01em}
+.days .nm small{color:var(--fg-2);font-size:13px;margin-left:12px;letter-spacing:0}
+.days button[aria-pressed="true"] .nm{color:var(--hot)}
+.days button[aria-pressed="true"] .i::before{content:"▸ "}
+.days button[aria-pressed="true"] .i,.days button[aria-pressed="true"] .md{color:var(--hot)}
+.days button:hover,.days button:focus-visible{background:var(--acid);outline:0}
+.days button:hover *,.days button:focus-visible *{color:var(--on-acid)!important}
+.days .hd{display:grid;grid-template-columns:2.5rem minmax(0,1fr) 10rem 7rem;gap:16px;padding:10px 8px;border-bottom:1px solid var(--line)}
+.days .hd span:last-child{text-align:right}
+
+/* transport */
+.deck{display:grid;grid-template-columns:auto auto minmax(0,1fr);gap:16px 32px;align-items:center;padding:20px 0;border-bottom:1px solid var(--line)}
+.clock{display:flex;align-items:baseline;gap:16px}
+#clock{font:400 clamp(40px,5vw,60px)/1 var(--mono);letter-spacing:-.04em;color:var(--hot);font-variant-numeric:tabular-nums}
+#sect{min-width:6.5em}
+#sect.s2{color:var(--acid)}
+#play{all:unset;box-sizing:border-box;cursor:pointer;font:500 12px var(--mono);letter-spacing:.14em;text-transform:uppercase;
+  color:var(--hot);border:1px solid var(--hot);height:48px;padding:0 22px;display:inline-flex;align-items:center;min-width:12.5em;justify-content:center}
+#play:hover,#play:focus-visible{background:var(--acid);border-color:var(--acid);color:var(--on-acid);outline:0}
+.sliders{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px 24px;justify-self:end;width:100%;max-width:560px}
+.sl{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;align-items:center}
+.sl .lbl{font-size:10px}
+.sl output{font:400 11px var(--mono);color:var(--fg);text-align:right;font-variant-numeric:tabular-nums}
+.sl input{grid-column:1/-1}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:24px;background:transparent;margin:0;cursor:pointer;accent-color:var(--hot)}
+input[type=range]::-webkit-slider-runnable-track{height:1px;background:var(--line)}
+input[type=range]::-moz-range-track{height:1px;background:var(--line)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:10px;height:16px;margin-top:-8px;background:var(--hot);border:0;border-radius:0}
+input[type=range]::-moz-range-thumb{width:10px;height:16px;background:var(--hot);border:0;border-radius:0}
+input[type=range]:hover::-webkit-slider-thumb{background:var(--acid)}
+input[type=range]:hover::-moz-range-thumb{background:var(--acid)}
+
+/* sequencer */
+.seq{padding-top:16px}
+.grid{display:grid;grid-template-columns:var(--lab) minmax(0,1fr);column-gap:12px}
+.rows{list-style:none;margin:0;padding:var(--strip) 0 0}
+.rows li{height:var(--rh);display:flex;align-items:center;gap:8px;font:400 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--fg-2);white-space:nowrap;overflow:hidden}
+.rows li i{width:8px;height:8px;flex:none}
+.rows li .ab{display:none}
+.rows li.off{color:#5f5f5a}
+.cv{position:relative;touch-action:pan-y;cursor:crosshair}
+.cv:focus-visible{outline:1px solid var(--hot);outline-offset:3px}
+#grid{display:block;width:100%;height:calc(var(--strip) + 7 * var(--rh))}
+.axis{position:relative;height:22px;margin-left:calc(var(--lab) + 12px);border-top:1px solid var(--line)}
+.axis span{position:absolute;top:5px;transform:translateX(-50%);font:400 10px var(--mono);color:var(--fg-2);letter-spacing:.04em}
+.axis span:first-child{transform:none}.axis span:last-child{transform:translateX(-100%)}
+.read{min-height:2.6em;margin:6px 0 0 calc(var(--lab) + 12px);font:400 11px/1.6 var(--mono);color:var(--fg-2);letter-spacing:.02em}
+.read b{color:var(--hot);font-weight:400}
+.read i{font-style:normal}.read .ch{color:var(--acid)}
+.read span{white-space:nowrap;margin-right:14px}
+.jump{display:flex;flex-wrap:wrap;gap:0;margin:14px 0 0;padding:0;list-style:none;border-top:1px solid var(--line)}
+.jump li{border-bottom:1px solid var(--line);border-right:1px solid var(--line)}
+.jump button{all:unset;box-sizing:border-box;cursor:pointer;display:block;padding:12px 14px;min-height:44px;font:400 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--fg)}
+.jump button:hover,.jump button:focus-visible{background:var(--acid);color:var(--on-acid);outline:0}
+.jump .lbl{padding:13px 14px 12px 0;border:0}
+.legend{margin:10px 0 0;color:var(--fg-2);font:400 11px/1.6 var(--mono)}
+.legend i{display:inline-block;width:14px;height:8px;background:var(--acid);vertical-align:0;margin-right:6px}
+details.tbl{margin-top:10px;border-bottom:1px solid var(--line)}
+details.tbl summary{cursor:pointer;list-style:none;padding:10px 0;font:400 11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--fg-2)}
+details.tbl summary::-webkit-details-marker{display:none}
+details.tbl summary::before{content:"+ "}
+details.tbl[open] summary::before{content:"− "}
+details.tbl summary:hover{color:var(--hot)}
+.tw{max-height:420px;overflow:auto;border-top:1px solid var(--line)}
+.tw table{width:100%;border-collapse:collapse;font:400 11.5px/1.4 var(--mono);font-variant-numeric:tabular-nums}
+.tw th{text-align:right;font-weight:400;color:var(--fg-2);padding:6px 10px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);white-space:nowrap}
+.tw td{text-align:right;padding:4px 10px;border-bottom:1px solid #262624;white-space:nowrap;color:var(--fg)}
+.tw th:first-child,.tw td:first-child,.tw th:nth-child(2),.tw td:nth-child(2){text-align:left}
+.tw tr.c td:nth-child(2){color:var(--acid)}
+
+/* mixer */
+.mix{list-style:none;margin:0;padding:0}
+.mix li{display:grid;grid-template-columns:8px 9.5rem minmax(0,1fr) 7rem 9rem 96px;gap:14px;align-items:center;padding:6px 0;border-bottom:1px solid var(--line)}
+.mix .sw{width:8px;height:8px}
+.mix .nm{color:var(--fg)}
+.mix .ro{font:400 11px var(--mono);color:var(--fg-2);letter-spacing:.02em}
+.mix .lv{height:2px;background:var(--line);position:relative}
+.mix .lv i{position:absolute;left:0;top:0;bottom:0;width:0;transition:width .12s linear}
+.mix .dl{font:400 11px var(--mono);color:var(--fg);text-align:right;font-variant-numeric:tabular-nums}
+.mix .ms{display:flex}
+.mix .ms button{all:unset;box-sizing:border-box;cursor:pointer;width:48px;height:36px;display:flex;align-items:center;justify-content:center;
+  font:500 11px var(--mono);letter-spacing:.08em;color:var(--fg-2);border:1px solid var(--line)}
+.mix .ms button+button{border-left:0}
+.mix .ms button:hover,.mix .ms button:focus-visible{background:var(--acid);color:var(--on-acid);border-color:var(--acid);outline:0}
+.mix .ms button[aria-pressed="true"]{background:var(--hot);color:var(--on-acid);border-color:var(--hot)}
+.mix li.silent .nm,.mix li.silent .dl{color:#5f5f5a}
+.mix li.silent .nm{text-decoration:line-through;text-decoration-thickness:1px}
+.mix li.silent .lv i{opacity:.25}
+
+/* notes */
+.notes{display:grid;grid-template-columns:1fr 1fr;gap:0 48px}
+.notes ul{list-style:none;margin:0;padding:0}
+.nt summary{list-style:none;cursor:pointer}
+.nt summary::-webkit-details-marker{display:none}
+.nt summary h2::after{content:"−";float:right}
+.nt:not([open]) summary h2::after{content:"+"}
+.nt summary:hover h2{color:var(--hot)}
+.notes li{padding:10px 0;border-bottom:1px solid var(--line);color:var(--fg-2)}
+.notes li b{font-weight:500;color:var(--hot)}
+.notes li .k{display:inline-block;width:8px;height:8px;margin-right:10px;vertical-align:1px}
+.notes p{color:var(--fg-2);margin:14px 0 0;max-width:60ch}
+#moments b{font:400 13px var(--mono);letter-spacing:0;color:var(--hot)}
+
+.credit{margin-top:48px;padding-top:14px;border-top:1px solid var(--line);font:400 11.5px/1.65 var(--mono);color:var(--fg-2);max-width:96ch}
+.credit p{margin:0 0 12px}
+.credit a{color:var(--fg);text-decoration:underline;text-underline-offset:.2em;text-decoration-thickness:1px}
+.credit a:hover{background:var(--acid);color:var(--on-acid)}
+kbd{font:400 10px var(--mono);border:1px solid var(--line);padding:1px 5px;color:var(--fg)}
+
+#toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);opacity:0;pointer-events:none;z-index:10;
+  background:var(--bg);color:var(--hot);border:1px solid var(--c-privoz);font:500 11px var(--mono);letter-spacing:.16em;text-transform:uppercase;
+  padding:10px 18px;transition:opacity .3s}
+#toast::before{content:"";display:inline-block;width:8px;height:8px;background:var(--c-privoz);margin-right:10px}
+#toast.show{opacity:1}
+
+@media (max-width:900px){
+  .head{grid-template-columns:1fr;padding:28px 0 24px;gap:16px}
+  .deck{grid-template-columns:1fr auto}
+  .sliders{grid-column:1/-1;max-width:none;justify-self:stretch}
+  .mix li{grid-template-columns:8px minmax(0,1fr) 5.5rem 96px;row-gap:2px}
+  .mix .ro{grid-column:2/-1;grid-row:2;order:5}
+  .mix .lv{display:none}
 }
-.wrap{max-width:980px;margin:0 auto;padding:28px 20px 80px;position:relative;z-index:1;}
-.eyebrow{font-family:var(--display);letter-spacing:.22em;text-transform:uppercase;font-size:12px;color:var(--gold);}
-h1{font-family:var(--display);font-style:italic;font-weight:800;text-transform:uppercase;
-   font-size:clamp(28px,5.4vw,54px);line-height:1.02;margin:.25em 0 .2em;text-wrap:balance;
-   background:linear-gradient(100deg,var(--blush) 0%,var(--accent) 42%,var(--gold) 100%);
-   -webkit-background-clip:text;background-clip:text;color:transparent;}
-.sub{color:var(--muted);max-width:62ch;margin:0 0 6px;}
-.sub b{color:var(--ink);font-weight:600;}
-.days{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;}
-.day{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;
-  text-transform:none;letter-spacing:0;padding:9px 14px;border-radius:12px;max-width:200px;}
-.day b{font-family:var(--display);text-transform:uppercase;letter-spacing:.08em;font-size:12.5px;}
-.day span{color:var(--muted);font-size:10.5px;line-height:1.3;font-family:var(--body);font-weight:400;}
-.day.on{border-color:var(--gold);background:#221D3A;}
-.day.on b{color:var(--gold);}
-.stage{display:grid;grid-template-columns:180px 1fr;gap:22px;align-items:center;
-  background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;margin-top:18px;}
-@media (max-width:640px){.stage{grid-template-columns:1fr;justify-items:center;text-align:center;}
-  .controls,.clockrow{justify-content:center;}}
-#disc{width:170px;height:170px;display:block;cursor:pointer;}
-.now{display:flex;flex-direction:column;gap:10px;min-width:0;width:100%;}
-.clockrow{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
-#clock{font-family:var(--display);font-weight:800;font-size:clamp(38px,7vw,64px);letter-spacing:.02em;
-  font-variant-numeric:tabular-nums;line-height:1;}
-.sect-chip{font-family:var(--display);text-transform:uppercase;letter-spacing:.14em;font-size:12px;
-  font-weight:800;padding:5px 12px;border-radius:999px;border:1px solid var(--line);color:var(--muted);
-  transition:all .4s;}
-.sect-chip.s0{color:var(--c-privoz);border-color:var(--c-privoz);}
-.sect-chip.s1{color:var(--ink);border-color:var(--muted);}
-.sect-chip.s2{color:#14060D;background:var(--gold);border-color:var(--gold);}
-.controls{display:flex;gap:14px;align-items:center;flex-wrap:wrap;}
-button{font-family:var(--display);text-transform:uppercase;letter-spacing:.1em;font-weight:700;
-  border-radius:999px;border:1px solid var(--line);background:var(--panel2);color:var(--ink);
-  padding:10px 18px;font-size:13px;cursor:pointer;}
-button:hover{border-color:var(--accent);}
-button:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
-#play{background:var(--accent);border-color:var(--accent);color:#14060D;font-size:15px;padding:12px 26px;}
-#play:hover{filter:brightness(1.08);}
-.sliders{display:flex;gap:16px;flex-wrap:wrap;}
-.sl{display:flex;align-items:center;gap:7px;color:var(--muted);font-size:12.5px;}
-.sl b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums;min-width:5.2em;}
-input[type=range]{accent-color:var(--accent);width:110px;}
-.tl-box{margin-top:26px;position:relative;}
-.tl-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;}
-h2{font-family:var(--display);text-transform:uppercase;letter-spacing:.16em;font-size:14px;font-weight:800;color:var(--ink);margin:0 0 10px;}
-.hint{color:var(--muted);font-size:12.5px;}
-#timeline{width:100%;height:200px;display:block;border:1px solid var(--line);border-radius:12px;background:var(--panel);cursor:crosshair;touch-action:none;}
-#tt{position:absolute;pointer-events:none;background:#2A1530e6;border:1px solid var(--line);border-radius:9px;
-  padding:8px 11px;font-size:11.5px;line-height:1.5;color:var(--ink);opacity:0;transition:opacity .12s;
-  min-width:160px;z-index:5;backdrop-filter:blur(4px);}
-#tt .t{font-family:var(--display);font-weight:800;font-size:13px;letter-spacing:.04em;}
-#tt .s{color:var(--gold);text-transform:uppercase;font-size:10px;letter-spacing:.12em;}
-#tt .r{display:flex;justify-content:space-between;gap:12px;color:var(--muted);}
-#tt .r b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums;}
-.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;}
-.chips button{padding:7px 13px;font-size:11px;letter-spacing:.06em;}
-.chips button:hover{border-color:var(--gold);color:var(--gold);}
-.mixer{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:10px;margin-top:26px;}
-.ch{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 12px 10px;
-  display:flex;flex-direction:column;gap:8px;transition:opacity .15s;}
-.ch.silent{opacity:.38;}
-.ch-top{display:flex;align-items:center;justify-content:space-between;gap:6px;}
-.ch-name{font-family:var(--display);text-transform:uppercase;letter-spacing:.1em;font-size:12.5px;font-weight:800;}
-.dot{width:10px;height:10px;border-radius:50%;flex:none;}
-.role{color:var(--muted);font-size:11.5px;line-height:1.35;min-height:2.7em;}
-.meter{height:6px;border-radius:3px;background:var(--panel2);overflow:hidden;}
-.meter i{display:block;height:100%;width:0%;border-radius:3px;transition:width .12s linear;}
-.ch-delay{font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums;}
-.ms{display:flex;gap:6px;}
-.ms button{padding:4px 0;width:100%;font-size:10.5px;}
-.ms button.on{background:var(--accent);border-color:var(--accent);color:#14060D;}
-.ms button.on.solo{background:var(--gold);border-color:var(--gold);}
-.notes{margin-top:36px;display:grid;grid-template-columns:1fr 1fr;gap:26px;}
-@media (max-width:720px){.notes{grid-template-columns:1fr;}}
-.notes p, .notes li{color:var(--muted);font-size:14px;}
-.notes li{margin:.35em 0;}
-.notes b{color:var(--ink);font-weight:600;}
-.k{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;}
-.credit{margin-top:34px;padding-top:14px;border-top:1px solid var(--line);color:var(--muted);font-size:12.5px;}
-kbd{background:var(--panel2);border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:11px;font-family:var(--body);}
-#toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);opacity:0;
-  background:var(--c-privoz);color:#062226;font-family:var(--display);font-weight:800;text-transform:uppercase;
-  letter-spacing:.12em;font-size:13px;padding:10px 20px;border-radius:999px;pointer-events:none;transition:all .35s;z-index:10;}
-#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-@media (prefers-reduced-motion: reduce){ #toast{transition:opacity .35s;} body.refren.hraje::before{animation:none;} }
+@media (max-width:600px){
+  :root{--lab:2.6rem;--rh:17px;--strip:6px}
+  body{font-size:14.5px}
+  .bar{font-size:10px;letter-spacing:.1em}
+  .bar .x{display:none}
+  section{margin-top:28px}
+  h1{font-size:clamp(34px,10.4vw,48px)}
+  .days button,.days .hd{grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;padding:10px 0}
+  .days .i,.days .hd span:first-child{display:none}
+  .days .nm small{display:none}
+  .days .dt{grid-row:2;grid-column:1}
+  .days .md{grid-row:1/span 2;grid-column:2;align-self:center}
+  .days .hd span:nth-child(3){display:none}
+  .deck{gap:12px 12px;padding:14px 0}
+  #clock{font-size:40px}
+  .clock{gap:10px}
+  #play{min-width:0;padding:0 14px;height:52px;white-space:nowrap;font-size:11px;letter-spacing:.1em}
+  .sliders{gap:0 14px}
+  .sl{grid-template-columns:1fr}
+  .sl output{text-align:left;font-size:10.5px}
+  .keys,.jump>.lbl{display:none}
+  .head{padding:22px 0 18px}
+  .bar{padding:10px 0}
+  .rows li{gap:0;letter-spacing:.04em;font-size:10px}
+  :root{--rh:19px}
+  .rows li i{display:none}
+  .rows li .fn{display:none}.rows li .ab{display:inline}
+  .read{margin-left:0}
+  .read span{margin-right:10px}
+  .axis span:nth-child(even){display:none}
+  .jump button{padding:12px 10px}
+  .mix li{grid-template-columns:8px minmax(0,1fr) auto 88px;gap:0 10px;padding:3px 0}
+  .mix .ro{display:none}
+  .mix .ms button{width:44px}
+  .notes li{padding:7px 0;font-size:14px}
+  .notes p{font-size:14px}
+  .legend{font-size:10.5px}
+  .credit{margin-top:32px;font-size:10.5px}
+  .mix .ms button{height:44px}
+  .notes{grid-template-columns:1fr}
+  .notes>.nt+.nt{margin-top:8px}
+}
+@media (hover:none){.keys{display:none}}
+@media (prefers-reduced-motion: reduce){ .mix .lv i{transition:none} #toast{transition:none} }
 </style>
 </head>
 <body>
 
 <div class="wrap">
-  <div class="eyebrow">Prague Integrated Transport · <span id="daymeta"></span></div>
-  <h1>Delayed All the Time.<br>On Time, Occasionally.</h1>
-  <p class="sub">Prague public transport, played as a disco track. Every transport mode is an instrument,
-  <b>traffic density sets the volume</b> and <b>delays detune the chords</b>. The chorus isn't triggered
-  by the clock but by the data: <b>whenever the surface-transport delay climbs past 68 % of that day's own
-  maximum, the city stops keeping up and the track lifts into the chorus</b>. Five days, five moods —
-  pick one and hear the difference. Nothing is random.</p>
+  <div class="bar lbl"><span>Prague Integrated Transport · <b id="daymeta"></b></span><span class="x">a sonification · 288 steps</span></div>
 
-  <div class="days" id="days"></div>
+  <header class="head">
+    <h1>Delayed All the Time.<br><em>On Time, Occasionally.</em></h1>
+    <p class="lead">Prague public transport, played as a disco track. Every transport mode is an instrument,
+    <b>traffic density sets the volume</b> and <b>delays detune the chords</b>. The chorus isn't triggered
+    by the clock but by the data: <b>whenever the surface-transport delay climbs past 68 % of that day's own
+    maximum, the city stops keeping up and the track lifts into the chorus</b>. Five days, five moods.
+    Pick one and hear the difference. Nothing is random.</p>
+  </header>
 
-  <div class="stage">
-    <canvas id="disc" width="340" height="340" title="click = play/pause"></canvas>
-    <div class="now">
-      <div class="clockrow"><div id="clock">00:00</div><span class="sect-chip s0" id="sectchip">night</span></div>
-      <div class="controls">
-        <button id="play">▶ Play the day</button>
-        <div class="sliders">
-          <label class="sl"><span>tempo</span><input id="bpm" type="range" min="88" max="150" value="116" step="1"><b id="bpmv">116 · 2:29</b></label>
-          <label class="sl"><span>delay drama</span><input id="drama" type="range" min="0" max="300" value="100" step="10"><b id="dramav">100 %</b></label>
-          <label class="sl"><span>volume</span><input id="vol" type="range" min="0" max="100" value="85" step="1"><b id="volv">85 %</b></label>
+  <section aria-labelledby="h-days">
+    <h2 id="h-days" class="sr">Pick a day</h2>
+    <ol class="days" id="days">
+      <li class="hd lbl" aria-hidden="true"><span>no.</span><span>day</span><span>date</span><span>mean delay</span></li>
+    </ol>
+  </section>
+
+  <section class="player" aria-label="Player">
+    <div class="deck">
+      <div class="clock"><div id="clock" aria-live="off">00:00</div><span class="lbl" id="sect">night</span></div>
+      <button id="play" type="button">▶ Play the day</button>
+      <div class="sliders">
+        <label class="sl"><span class="lbl">tempo</span><output id="bpmv">116 · 2:29</output><input id="bpm" type="range" min="88" max="150" value="116" step="1"></label>
+        <label class="sl"><span class="lbl">delay drama</span><output id="dramav">100 %</output><input id="drama" type="range" min="0" max="300" value="100" step="10"></label>
+        <label class="sl"><span class="lbl">volume</span><output id="volv">85 %</output><input id="vol" type="range" min="0" max="100" value="85" step="1"></label>
+      </div>
+    </div>
+
+    <div class="seq">
+      <div class="grid">
+        <ol class="rows" id="rows" aria-hidden="true"></ol>
+        <div class="cv" id="cv" tabindex="0" role="slider" aria-label="Position in the day, one column per five minutes"
+             aria-valuemin="0" aria-valuemax="287" aria-valuenow="0" aria-valuetext="00:00">
+          <canvas id="grid"></canvas>
         </div>
       </div>
-      <div class="hint"><kbd>space</kbd> play/pause · <kbd>←</kbd><kbd>→</kbd> ±30 minutes · click the chart to jump in time</div>
+      <div class="axis" id="axis" aria-hidden="true"></div>
+      <p class="read" id="read" aria-hidden="true"></p>
+      <p class="legend"><i></i>chorus · brightness = stop events in the window · bar height = mean delay, full at 3 min · click a column to jump<span class="keys"> · <kbd>space</kbd> play · <kbd>←</kbd><kbd>→</kbd> ±30 min, in the grid 5 min</span></p>
+      <ul class="jump" id="jump"><li class="lbl" aria-hidden="true">jump to</li></ul>
+      <details class="tbl" id="tbl"><summary>the day as a table</summary><div class="tw" id="tw"></div></details>
     </div>
-  </div>
+  </section>
 
-  <div class="tl-box">
-    <div class="tl-head"><h2>24 hours of traffic</h2><span class="hint">gold band = chorus (the delay rush) · hover for detail</span></div>
-    <canvas id="timeline" aria-label="timeline of the day, click to seek"></canvas>
-    <div id="tt"></div>
-    <div class="chips" id="chips"></div>
-  </div>
+  <section aria-labelledby="h-mix">
+    <h2 id="h-mix">Mixer · live at the playhead</h2>
+    <ul class="mix" id="mixer"></ul>
+  </section>
 
-  <div class="mixer" id="mixer"></div>
-
-  <div class="notes">
-    <div>
-      <h2>What you're hearing</h2>
-      <ul style="padding-left:1.1em;margin:0;">
-        <li><span class="k" style="background:var(--c-metro)"></span><b>Metro</b> — kick drum and bassline. Average delay 9 s, the most reliable pulse in the city. No metro, no beat.</li>
-        <li><span class="k" style="background:var(--c-tramvaj)"></span><b>Trams</b> — hi-hats and funky sixteenth-note plucks.</li>
-        <li><span class="k" style="background:var(--c-autobus)"></span><b>Buses</b> — chord stabs on the off-beat, the backbone of the sound. The later they run, the more detuned the chord.</li>
-        <li><span class="k" style="background:var(--c-mesto)"></span><b>Voice of the City</b> — the lead. Its melody is the city-wide average delay quantised to the scale: the later Prague runs, the higher it sings. Always in tune.</li>
-        <li><span class="k" style="background:var(--c-vlak)"></span><b>Trains</b> — kicked out of the band. Averaging 111 s late on a typical weekday, they played so out of tune they broke the whole song. Still shown in the chart; never getting the mic back.</li>
-        <li><span class="k" style="background:var(--c-trolejbus)"></span><b>Trolleybuses</b> — claps on 2 &amp; 4, cowbell in the rush.</li>
-        <li><span class="k" style="background:var(--c-privoz)"></span><b>Ferry</b> — a bell. On a typical Tuesday it rings three times all day; in summer the river gets a whole verse of its own.</li>
+  <section class="notes">
+    <details class="nt" open>
+      <summary><h2>What you're hearing</h2></summary>
+      <ul>
+        <li><span class="k" style="background:var(--c-metro)"></span><b>Metro</b>: kick drum and bassline. Average delay 7 s, the most reliable pulse in the city. No metro, no beat.</li>
+        <li><span class="k" style="background:var(--c-tramvaj)"></span><b>Trams</b>: hi-hats and funky sixteenth-note plucks.</li>
+        <li><span class="k" style="background:var(--c-autobus)"></span><b>Buses</b>: chord stabs on the off-beat, the backbone of the sound. The later they run, the more detuned the chord.</li>
+        <li><span class="k" style="background:var(--c-mesto)"></span><b>Voice of the City</b>: the lead. Its melody is the city-wide average delay quantised to the scale: the later Prague runs, the higher it sings. Always in tune.</li>
+        <li><span class="k" style="background:var(--c-vlak)"></span><b>Trains</b>: kicked out of the band. Averaging 111 s late on a typical weekday, they played so out of tune they broke the whole song. Still shown in the grid; never getting the mic back.</li>
+        <li><span class="k" style="background:var(--c-trolejbus)"></span><b>Trolleybuses</b>: claps on 2 &amp; 4, cowbell in the rush.</li>
+        <li><span class="k" style="background:var(--c-privoz)"></span><b>Ferry</b>: a bell. On a typical Tuesday it rings three times all day; in summer the river gets a whole verse of its own.</li>
       </ul>
-    </div>
-    <div>
-      <h2>Song structure</h2>
-      <ul style="padding-left:1.1em;margin:0;" id="moments"></ul>
+    </details>
+    <details class="nt" open>
+      <summary><h2>Song structure</h2></summary>
+      <ul id="moments"></ul>
       <p>Each day sings in its own key, chosen by its average delay: calm days float in Lydian,
-      ordinary days groove in Dorian, and the worse the city runs, the darker the mode — all the way
+      ordinary days groove in Dorian, and the worse the city runs, the darker the mode, all the way
       down to Phrygian for the Meltdown. The groove swings, and everything melodic pumps around
-      the metro's kick drum. In the chorus a pad, an arpeggio and a tambourine join in, the chords
-      lift and change twice as fast — and right before it the beat cuts out for a two-beat break:
+      the metro's kick drum. In the chorus a pad, an arpeggio and a tambourine join in, and the chords
+      lift and change twice as fast. Right before it the beat cuts out for a two-beat break:
       snare roll, riser, crash, drop. The day plays on a loop: at midnight it starts over,
       because public transport does too.</p>
-    </div>
-  </div>
+    </details>
+  </section>
 
-  <div class="credit">Data: Prague Integrated Transport (PID) stop-time history, provided by
+  <footer class="credit">
+  <p>Data: Prague Integrated Transport (PID) stop-time history, provided by
   <a href="https://golemio.cz" target="_blank" rel="noopener">Golemio</a>, the open-data platform of
   Operator ICT / City of Prague. Source records cover 15 March to 8 September 2025; the five days
   played here are aggregated into 5-minute windows per mode (event count, mean and 90th-percentile
   arrival delay). No raw records are redistributed. Please credit Golemio when reusing this material.
-  A sonification companion to a master's thesis on delay cascades in Prague public transport.<br><br>
-  Title and structure are a loving homage to the disco-revival tradition; the phrasing of the
+  A sonification companion to a master's thesis on delay cascades in Prague public transport.</p>
+  <p>Title and structure are a loving homage to the disco-revival tradition; the phrasing of the
   title riffs on contemporary pop-album naming. No affiliation with, or endorsement by, any artist
-  or label — and no audio was sampled: every sound is synthesised in the browser from
-  public-transport data. Any resemblance to an actual banger is purely statistical.
-  </div>
+  or label, and no audio was sampled: every sound is synthesised in the browser from
+  public-transport data. Any resemblance to an actual banger is purely statistical.</p>
+  </footer>
 </div>
-<div id="toast">Ferry!</div>
+<div id="toast" role="status">Ferry!</div>
 
 <script>
 "use strict";
@@ -645,9 +758,8 @@ function stop(){
 }
 const toggle=()=>playing?stop():start();
 document.getElementById("play").addEventListener("click",toggle);
-document.getElementById("disc").addEventListener("click",toggle);
 
-// sliders
+// ---------- sliders ----------
 const bpmEl=document.getElementById("bpm");
 function updDur(){
   const s=Math.round(BINS*60/bpm);
@@ -666,230 +778,268 @@ document.getElementById("vol").addEventListener("input",e=>{
   if (master) master.gain.setTargetAtTime(volume, ctx.currentTime, 0.05);
 });
 
-// keyboard
+// ---------- seeking ----------
+const SECTNAME=["night","verse","chorus"];
+const cv=document.getElementById("cv");
+function seekTo(bin){
+  step=((bin%BINS+BINS)%BINS)*4;
+  if (playing) nextTime=ctx.currentTime+0.06;
+  lastFerryBin=-1;
+  announce();
+}
+// the grid is a slider for assistive tech; its value is only pushed on user moves, not 2x a second while playing
+function announce(){
+  const bin=Math.floor(step/4)%BINS;
+  cv.setAttribute("aria-valuenow",bin);
+  cv.setAttribute("aria-valuetext",`${binTime(bin)}, ${SECTNAME[cur.SECT[bin]]}, city runs ${Math.round(cur.wsm[bin])} s late`);
+}
+
+// keyboard: space plays, arrows move ±30 minutes; inside the grid arrows move one five-minute column
 window.addEventListener("keydown",e=>{
-  if (e.target.tagName==="INPUT"||e.target.tagName==="BUTTON") return;
+  if (["INPUT","BUTTON","SUMMARY","A"].includes(e.target.tagName)) return;
   if (e.code==="Space"){ e.preventDefault(); toggle(); }
   if (e.code==="ArrowRight"||e.code==="ArrowLeft"){
     e.preventDefault();
-    const d=(e.code==="ArrowRight"?6:-6)*4;
-    step=((step+d)%(BINS*4)+BINS*4)%(BINS*4);
-    if (playing) nextTime=ctx.currentTime+0.06;
-    lastFerryBin=-1;
+    seekTo(Math.floor(step/4)+(e.code==="ArrowRight"?6:-6));
   }
 });
+cv.addEventListener("keydown",e=>{
+  const bin=Math.floor(step/4)%BINS;
+  const k={ArrowRight:e.shiftKey?6:1, ArrowLeft:e.shiftKey?-6:-1, PageUp:12, PageDown:-12}[e.key];
+  let to=null;
+  if (k!==undefined) to=bin+k;
+  else if (e.key==="Home") to=0;
+  else if (e.key==="End") to=BINS-1;
+  if (to===null) return;
+  e.preventDefault(); e.stopPropagation();
+  seekTo(Math.max(0,Math.min(BINS-1,to)));
+  hoverBin=Math.floor(step/4); showRead(hoverBin);
+});
+cv.addEventListener("focus",()=>{ announce(); hoverBin=Math.floor(step/4)%BINS; showRead(hoverBin); });
+cv.addEventListener("blur",()=>{ hoverBin=-1; showRead(-1); });
 
-// ---------- mixer UI ----------
+// ---------- sequencer grid ----------
+const ROWS=[
+  {key:"metro",     ab:"met"},
+  {key:"tramvaj",   ab:"trm"},
+  {key:"autobus",   ab:"bus"},
+  {key:"trolejbus", ab:"trl"},
+  {key:"přívoz",    ab:"fry"},
+  {key:"vlak",      ab:"trn"},
+  {key:"město",     ab:"vox"},
+].map(r=>({...r, m:[...MODES,MESTO].find(m=>m.key===r.key)}));
+const rowsEl=document.getElementById("rows");
+ROWS.forEach(r=>{
+  const li=document.createElement("li");
+  if (r.key==="vlak") li.className="off";
+  li.innerHTML=`<i style="background:${color(r.m)}"></i><span class="fn">${r.key==="město"?"Voice":r.m.name}</span><span class="ab">${r.ab}</span>`;
+  r.li=li; rowsEl.appendChild(li);
+});
+const axisEl=document.getElementById("axis");
+for (let h=0;h<=24;h+=3){
+  const s=document.createElement("span"); s.style.left=(h/24*100)+"%";
+  s.textContent=String(h).padStart(2,"0")+":00"; axisEl.appendChild(s);
+}
+const gridEl=document.getElementById("grid"), g=gridEl.getContext("2d");
+const layer=document.createElement("canvas"), lg=layer.getContext("2d");
+let GW=0, GH=0, STRIP=8, RH=20, dpr=1, layerKey="";
+function sizeGrid(){
+  const r=gridEl.getBoundingClientRect(); dpr=window.devicePixelRatio||1;
+  GW=r.width; GH=r.height;
+  gridEl.width=layer.width=Math.round(GW*dpr); gridEl.height=layer.height=Math.round(GH*dpr);
+  STRIP=parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--strip"))||8;
+  RH=(GH-STRIP)/ROWS.length; layerKey="";
+}
+window.addEventListener("resize",sizeGrid);
+const ACID=css.getPropertyValue("--acid").trim();
+const rgba=(hex,a)=>{ const n=parseInt(hex.slice(1),16); return `rgba(${n>>16},${(n>>8)&255},${n&255},${a})`; };
+
+// static layer: drawn once per day / size / mute state
+function drawLayer(){
+  const W=GW, cw=W/BINS, gap=cw>=3?1:0;
+  lg.setTransform(dpr,0,0,dpr,0,0); lg.clearRect(0,0,W,GH);
+  // three-hour guides
+  lg.fillStyle="#232321";
+  for (let h=3;h<24;h+=3) lg.fillRect(Math.round(h*12*cw),STRIP,1,GH-STRIP);
+  // chorus strip
+  lg.fillStyle=ACID;
+  for (const [a,b] of cur.chorusBlocks) lg.fillRect(a*cw,0,(b-a)*cw,STRIP-3);
+  ROWS.forEach((r,ri)=>{
+    const y0=STRIP+ri*RH, ch=RH-3, c=color(r.m);
+    const dim=(r.key==="vlak"||silent(r.key))?0.35:1;
+    for (let i=0;i<BINS;i++){
+      let a, h;
+      if (r.key==="město"){
+        a=0.85; h=cur.act["město"][i];
+      } else {
+        if (getD(r.key,i,"n")<=0) continue;
+        a=0.18+0.82*cur.act[r.key][i]; h=delayNorm(r.key,i);
+      }
+      const x=i*cw, w=Math.max(cw-gap,0.75);
+      lg.fillStyle=rgba(c,0.16*a*dim); lg.fillRect(x,y0,w,ch);
+      const bh=Math.max(1.5,h*ch);
+      lg.fillStyle=rgba(c,a*dim); lg.fillRect(x,y0+ch-bh,w,bh);
+    }
+  });
+}
+let hoverBin=-1;
+function drawGrid(pos){
+  const key=cur.raw.id+"|"+GW+"|"+GH+"|"+BAND.map(m=>silent(m.key)?1:0).join("");
+  if (key!==layerKey){ drawLayer(); layerKey=key; }
+  g.setTransform(1,0,0,1,0,0); g.clearRect(0,0,gridEl.width,gridEl.height);
+  g.drawImage(layer,0,0);
+  g.setTransform(dpr,0,0,dpr,0,0);
+  const cw=GW/BINS;
+  if (hoverBin>=0){
+    g.strokeStyle="#F2F2EE"; g.lineWidth=1;
+    g.strokeRect(Math.floor(hoverBin*cw)-0.5,STRIP-0.5,Math.max(cw,2)+1,GH-STRIP);
+  }
+  const x=pos/BINS*GW;
+  g.fillStyle=ACID; g.fillRect(Math.round(x)-1,0,2,GH);
+}
+function binFromEvent(e){
+  const r=gridEl.getBoundingClientRect();
+  return Math.min(BINS-1,Math.max(0,Math.floor((e.clientX-r.left)/r.width*BINS)));
+}
+let dragging=false;
+cv.addEventListener("pointerdown",e=>{ dragging=true; seekTo(binFromEvent(e)); });
+window.addEventListener("pointermove",e=>{ if (dragging) seekTo(binFromEvent(e)); });
+window.addEventListener("pointerup",()=>dragging=false);
+window.addEventListener("pointercancel",()=>dragging=false);
+cv.addEventListener("pointermove",e=>{ if (e.pointerType==="touch") return; hoverBin=binFromEvent(e); showRead(hoverBin); });
+cv.addEventListener("pointerleave",()=>{ hoverBin=-1; showRead(-1); });
+
+// readout under the grid: the hovered or focused window, in numbers
+const readEl=document.getElementById("read");
+function showRead(bin){
+  if (bin<0) bin=Math.floor(step/4)%BINS; // nothing hovered: follow the playhead
+  const s=cur.SECT[bin];
+  const rows=ROWS.filter(r=>r.key!=="město").map(r=>{
+    const n=getD(r.key,bin,"n");
+    return n>0?`<span>${r.m.name.toLowerCase()} <b>${n}</b> · ${Math.round(getD(r.key,bin,"delay"))} s</span>`:"";
+  }).filter(Boolean).join(" ");
+  readEl.innerHTML=`<span><b>${binTime(bin)}</b> <i class="${s===2?"ch":""}">${SECTNAME[s]}</i></span> `+
+    `<span>city <b>${Math.round(cur.wsm[bin])} s</b> late</span> ${rows||"<span>all quiet</span>"}`;
+}
+
+// accessible fallback: the whole day as a table
+const tblEl=document.getElementById("tbl"), twEl=document.getElementById("tw");
+function buildTable(){
+  if (!tblEl.open) return;
+  const cols=ROWS.filter(r=>r.key!=="město");
+  const head=`<tr><th scope="col">time</th><th scope="col">section</th>${cols.map(r=>`<th scope="col">${r.m.name.toLowerCase()}<br>events · s</th>`).join("")}<th scope="col">city delay, s</th></tr>`;
+  let body="";
+  for (let i=0;i<BINS;i++){
+    body+=`<tr${cur.SECT[i]===2?' class="c"':""}><th scope="row" style="text-align:left;position:static;border:0;padding:4px 10px;color:var(--fg)">${binTime(i)}</th><td>${SECTNAME[cur.SECT[i]]}</td>`+
+      cols.map(r=>{ const n=getD(r.key,i,"n"); return `<td>${n>0?n+" · "+Math.round(getD(r.key,i,"delay")):"–"}</td>`; }).join("")+
+      `<td>${Math.round(cur.wsm[i])}</td></tr>`;
+  }
+  twEl.innerHTML=`<table><caption class="sr">${DATA.days[dayIdx].label}, ${DATA.days[dayIdx].disc}: stop events and mean arrival delay per five-minute window</caption><thead>${head}</thead><tbody>${body}</tbody></table>`;
+}
+tblEl.addEventListener("toggle",buildTable);
+
+// ---------- mixer ----------
 const mixer=document.getElementById("mixer");
 const meterEls={}, delayEls={}, chEls={};
 function refreshMix(){
   for (const m of BAND){
     chEls[m.key].el.classList.toggle("silent", silent(m.key));
-    chEls[m.key].mb.classList.toggle("on", muted[m.key]);
-    chEls[m.key].sb.classList.toggle("on", solo[m.key]);
+    chEls[m.key].mb.setAttribute("aria-pressed", muted[m.key]);
+    chEls[m.key].sb.setAttribute("aria-pressed", solo[m.key]);
   }
+  lastBin=-1;
 }
 for (const m of BAND){
-  const el=document.createElement("div"); el.className="ch";
-  el.innerHTML=`<div class="ch-top"><span class="ch-name" style="color:${color(m)}">${m.name}</span>
-    <span class="dot" style="background:${color(m)}"></span></div>
-    <div class="role">${m.role}</div>
-    <div class="meter"><i style="background:${color(m)}"></i></div>
-    <div class="ch-delay">—</div>
-    <div class="ms"><button type="button">Mute</button><button type="button" class="solo">Solo</button></div>`;
+  const el=document.createElement("li");
+  el.innerHTML=`<span class="sw" style="background:${color(m)}"></span><span class="nm">${m.name}</span>
+    <span class="ro">${m.role}</span><span class="lv"><i style="background:${color(m)}"></i></span>
+    <span class="dl">–</span>
+    <span class="ms"><button type="button" aria-pressed="false" aria-label="Mute ${m.name}">M</button><button type="button" aria-pressed="false" aria-label="Solo ${m.name}">S</button></span>`;
   const [mb,sb]=el.querySelectorAll("button");
   mb.addEventListener("click",()=>{ muted[m.key]=!muted[m.key]; refreshMix(); });
   sb.addEventListener("click",()=>{ solo[m.key]=!solo[m.key]; refreshMix(); });
   mixer.appendChild(el);
-  meterEls[m.key]=el.querySelector(".meter i");
-  delayEls[m.key]=el.querySelector(".ch-delay");
+  meterEls[m.key]=el.querySelector(".lv i");
+  delayEls[m.key]=el.querySelector(".dl");
   chEls[m.key]={el,mb,sb};
 }
 
-// ---------- timeline ----------
-const tl=document.getElementById("timeline");
-const tctx=tl.getContext("2d");
-let TW=0,TH=0;
-function sizeTL(){
-  const r=tl.getBoundingClientRect(), dpr=window.devicePixelRatio||1;
-  tl.width=r.width*dpr; tl.height=r.height*dpr; tctx.setTransform(dpr,0,0,dpr,0,0);
-  TW=r.width; TH=r.height;
-}
-window.addEventListener("resize",sizeTL);
-sizeTL();
-
-function drawTL(curBin){
-  tctx.clearRect(0,0,TW,TH);
-  const padB=22, padT=16, H=TH-padB-padT;
-  for (const [a,b,v] of runsOf(cur.SECT)){
-    const x0=a/(BINS-1)*TW, x1=b/(BINS-1)*TW;
-    if (v===2){ tctx.fillStyle="rgba(245,192,78,0.10)"; tctx.fillRect(x0,padT,x1-x0,H); }
-    if (v===0){ tctx.fillStyle="rgba(0,0,0,0.30)"; tctx.fillRect(x0,padT,x1-x0,H); }
-  }
-  tctx.font="10px sans-serif";
-  tctx.fillStyle=css.getPropertyValue("--muted"); tctx.strokeStyle=css.getPropertyValue("--line");
-  for (let h=0;h<=24;h+=3){
-    const x=h/24*TW;
-    tctx.beginPath(); tctx.moveTo(x,padT); tctx.lineTo(x,TH-padB); tctx.stroke();
-    tctx.fillText(String(h).padStart(2,"0")+":00", Math.min(x+3,TW-34), TH-8);
-  }
-  for (let s=cur.stackOrder.length-1;s>=0;s--){
-    const k=cur.stackOrder[s], mode=MODES.find(m=>m.key===k);
-    tctx.beginPath(); tctx.moveTo(0,TH-padB);
-    for (let i=0;i<BINS;i++){
-      const x=i/(BINS-1)*TW, y=TH-padB-cur.stacks[i][s]/cur.stackMax*H;
-      tctx.lineTo(x,y);
-    }
-    tctx.lineTo(TW,TH-padB); tctx.closePath();
-    tctx.fillStyle=color(mode)+"E6"; tctx.fill();
-  }
-  tctx.font="9.5px sans-serif";
-  tctx.fillStyle=css.getPropertyValue("--gold");
-  for (const [a,b,v] of runsOf(cur.SECT)) if (v===2){
-    const x=(a+b)/2/(BINS-1)*TW;
-    tctx.fillText("CHORUS", x-19, padT-5);
-  }
-  const mark=(bin,label)=>{
-    const x=bin/(BINS-1)*TW;
-    tctx.fillRect(x-0.5,padT-4,1,4);
-    tctx.fillText(label, Math.min(Math.max(2,x-12),TW-58), padT-5);
-  };
-  if (cur.firstMetro>=0) mark(cur.firstMetro,"1st metro");
-  if (cur.ferryBins.length<=4) cur.ferryBins.forEach(b=>mark(b,"ferry"));
-  const x=curBin/(BINS-1)*TW;
-  tctx.fillStyle=css.getPropertyValue("--accent");
-  tctx.fillRect(x-1,padT,2,H);
-}
-function seekTo(bin){
-  step=((bin%BINS+BINS)%BINS)*4;
-  if (playing) nextTime=ctx.currentTime+0.06;
-  lastFerryBin=-1;
-}
-function binFromEvent(e){
-  const r=tl.getBoundingClientRect();
-  return Math.min(BINS-1,Math.max(0,Math.floor((e.clientX-r.left)/r.width*BINS)));
-}
-let dragging=false;
-tl.addEventListener("pointerdown",e=>{dragging=true;seekTo(binFromEvent(e));});
-window.addEventListener("pointermove",e=>{if(dragging)seekTo(binFromEvent(e));});
-window.addEventListener("pointerup",()=>dragging=false);
-
-// tooltip
-const tt=document.getElementById("tt");
-const SECTNAME=["night","verse","chorus"];
-tl.addEventListener("pointermove",e=>{
-  const bin=binFromEvent(e);
-  const rows=MODES.map(m=>{
-    const n=getD(m.key,bin,"n");
-    return n>0?`<div class="r"><span><span class="k" style="background:${color(m)}"></span>${m.name}</span><b>${n} · ${Math.round(getD(m.key,bin,"delay"))} s</b></div>`:"";
-  }).join("");
-  const city=`<div class="r"><span><span class="k" style="background:${color(MESTO)}"></span>City delay</span><b>${Math.round(cur.wsm[bin])} s</b></div>`;
-  tt.innerHTML=`<div class="t">${binTime(bin)}</div><div class="s">${SECTNAME[cur.SECT[bin]]}</div>${rows||'<div class="r">all quiet</div>'}${city}`;
-  const box=tl.getBoundingClientRect();
-  const x=Math.min(e.clientX-box.left+14, box.width-180);
-  tt.style.left=Math.max(0,x)+"px"; tt.style.top="28px"; tt.style.opacity="1";
-});
-tl.addEventListener("pointerleave",()=>tt.style.opacity="0");
-
-// ---------- day picker + per-day UI ----------
+// ---------- day list + per-day UI ----------
 const daysEl=document.getElementById("days");
-const chips=document.getElementById("chips");
+const jumpEl=document.getElementById("jump");
 let ferryIdx=0;
-
-function buildChips(){
-  chips.innerHTML=""; ferryIdx=0;
+function buildJumps(){
+  [...jumpEl.querySelectorAll("li:not(.lbl)")].forEach(n=>n.remove()); ferryIdx=0;
   const defs=[
     {l:"night", b:()=>(cur.lastMetro+3)%BINS},
-    cur.firstMetro>=0&&{l:"first metro", b:()=>cur.firstMetro},
+    cur.firstMetro>=0&&{l:"first metro "+binTime(cur.firstMetro), b:()=>cur.firstMetro},
     ...cur.chorusBlocks.slice(0,3).map(blk=>({l:"chorus "+binTime(blk[0]), b:()=>blk[0]-2})),
     {l:"delay peak "+binTime(cur.delayPeakBin), b:()=>cur.delayPeakBin},
     cur.ferryBins.length&&{l:"ferry", b:()=>{const v=cur.ferryBins[ferryIdx%cur.ferryBins.length]; ferryIdx++; return v;}},
   ].filter(Boolean);
   for (const c of defs){
-    const btn=document.createElement("button"); btn.type="button"; btn.textContent=c.l;
+    const li=document.createElement("li"), btn=document.createElement("button");
+    btn.type="button"; btn.textContent=c.l;
     btn.addEventListener("click",()=>{ seekTo(c.b()); if(!playing) start(); });
-    chips.appendChild(btn);
+    li.appendChild(btn); jumpEl.appendChild(li);
   }
 }
+const dayBtns=[];
 function loadDay(idx){
   dayIdx=idx;
   const raw=DATA.days[idx];
   cur = cache[raw.id] || (cache[raw.id]=computeDay(raw));
   document.getElementById("daymeta").textContent=raw.disc+" · "+raw.total.toLocaleString("en-US")+" stop events · "+cur.keyName;
   document.getElementById("moments").innerHTML=cur.momentsHTML;
-  buildChips();
-  [...daysEl.children].forEach((b,i)=>b.classList.toggle("on",i===idx));
-  lastFerryBin=-1; lastLeadMidi=null; lastBin=-1;
+  buildJumps();
+  dayBtns.forEach((b,i)=>b.setAttribute("aria-pressed",i===idx));
+  lastFerryBin=-1; lastLeadMidi=null; lastBin=-1; layerKey="";
+  buildTable(); showRead(hoverBin); announce();
 }
 DATA.days.forEach((d,i)=>{
-  const btn=document.createElement("button"); btn.type="button"; btn.className="day";
-  btn.innerHTML=`<b>${d.label}</b><span>${d.sub}</span>`;
+  const dd = cache[d.id] || (cache[d.id]=computeDay(d));
+  const note=d.sub.split(" · ").slice(1).join(" · ");
+  const li=document.createElement("li"), btn=document.createElement("button");
+  btn.type="button"; btn.setAttribute("aria-pressed","false");
+  btn.innerHTML=`<span class="i">${String(i+1).padStart(2,"0")}</span><span class="nm">${d.label}<small>${note}</small></span>`+
+    `<span class="dt">${d.disc}</span><span class="md">${Math.round(dd.meanDelay)} s</span>`;
+  btn.setAttribute("aria-label",`${d.label}, ${d.disc}, mean surface delay ${Math.round(dd.meanDelay)} seconds`);
   btn.addEventListener("click",()=>loadDay(i));
-  daysEl.appendChild(btn);
+  li.appendChild(btn); daysEl.appendChild(li); dayBtns.push(btn);
 });
 
-// ---------- disc ----------
-const disc=document.getElementById("disc");
-const dctx=disc.getContext("2d");
-const reduceMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-function drawDisc(frac,beatPulse){
-  const S=340,c=S/2;
-  dctx.setTransform(1,0,0,1,0,0); dctx.clearRect(0,0,S,S);
-  dctx.translate(c,c);
-  const R=150+(reduceMotion?0:beatPulse*4);
-  dctx.fillStyle="#1F1024"; dctx.beginPath(); dctx.arc(0,0,R,0,7); dctx.fill();
-  dctx.strokeStyle="#301936";
-  for (let r=R-8;r>66;r-=9){ dctx.beginPath(); dctx.arc(0,0,r,0,7); dctx.stroke(); }
-  if (!reduceMotion){
-    dctx.save(); dctx.rotate(frac*Math.PI*2*8);
-    const gr=dctx.createLinearGradient(-R,0,R,0);
-    gr.addColorStop(0,"rgba(255,77,109,0)"); gr.addColorStop(.5,"rgba(255,77,109,.12)"); gr.addColorStop(1,"rgba(245,192,78,0)");
-    dctx.fillStyle=gr; dctx.beginPath(); dctx.arc(0,0,R,0,7); dctx.fill(); dctx.restore();
-  }
-  dctx.fillStyle="#FF4D6D"; dctx.beginPath(); dctx.arc(0,0,58,0,7); dctx.fill();
-  dctx.fillStyle="#2A060F"; dctx.textAlign="center";
-  dctx.font="italic 800 13px Futura, Trebuchet MS, sans-serif";
-  dctx.fillText("PID RECORDS",0,-8);
-  dctx.font="10px sans-serif";
-  dctx.fillText(DATA.days[dayIdx].disc,0,8);
-  dctx.fillStyle="#130814"; dctx.beginPath(); dctx.arc(0,0,4,0,7); dctx.fill();
-  const ang=frac*Math.PI*2-Math.PI/2;
-  dctx.strokeStyle="#F5C04E"; dctx.lineWidth=2.5;
-  dctx.beginPath(); dctx.moveTo(Math.cos(ang)*62,Math.sin(ang)*62);
-  dctx.lineTo(Math.cos(ang)*(R-4),Math.sin(ang)*(R-4)); dctx.stroke();
-  dctx.lineWidth=1;
-}
-
 // ---------- animation ----------
-const clockEl=document.getElementById("clock"), sectChip=document.getElementById("sectchip");
+const clockEl=document.getElementById("clock"), sectEl=document.getElementById("sect");
 let lastBin=-1;
 function frame(){
   const curStep=step;
   const bin=Math.floor(curStep/4)%BINS;
-  const frac=(curStep/4)/BINS;
   if (bin!==lastBin){
     lastBin=bin;
     clockEl.textContent=binTime(bin);
     const s=cur.SECT[bin];
-    sectChip.textContent=SECTNAME[s];
-    sectChip.className="sect-chip s"+s;
-    document.body.classList.toggle("refren", s===2);
+    sectEl.textContent=SECTNAME[s];
+    sectEl.className="lbl s"+s;
+    if (hoverBin<0) showRead(bin);
     for (const m of BAND){
       const aa=silent(m.key)?0:cur.act[m.key][bin];
       meterEls[m.key].style.width=Math.round(aa*100)+"%";
       if (m.key==="město"){
-        delayEls[m.key].textContent=`city runs ${Math.round(cur.wsm[bin])} s late`;
+        delayEls[m.key].textContent=`city ${Math.round(cur.wsm[bin])} s late`;
       } else {
         const d=getD(m.key,bin,"delay");
-        delayEls[m.key].textContent=getD(m.key,bin,"n")>0?`avg delay ${Math.round(d)} s`:"not running";
+        delayEls[m.key].textContent=getD(m.key,bin,"n")>0?`avg ${Math.round(d)} s`:"not running";
       }
     }
   }
-  drawTL(bin);
-  drawDisc(frac, playing?1-((curStep%4)/4):0);
+  drawGrid(curStep/4);
   requestAnimationFrame(frame);
 }
+// phones: the two explanatory notes start folded, one tap away
+if (window.matchMedia("(max-width:600px)").matches) document.querySelectorAll(".nt").forEach(d=>d.open=false);
+sizeGrid();
 loadDay(0);
+showRead(-1);
 requestAnimationFrame(frame);
 </script>
 
