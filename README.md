@@ -4,8 +4,10 @@
 delay persistence in the PID network. Five real days from the dataset, played as disco tracks by
 the transport system itself.
 
-Open `index.html` in any browser, or visit the hosted page. The player is fully self-contained:
-no server, no build step, no external resources, all audio synthesised live with the Web Audio API.
+Open `index.html` in any browser, or visit the [hosted page](https://sandovabarbora.github.io/delayed-all-the-time/).
+The player is one self-contained file: no server, no build step, no external resources (the three
+fonts, Space Grotesk, JetBrains Mono and Fraunces, are embedded as WOFF2 subsets under the SIL Open
+Font License), all audio synthesised live with the Web Audio API.
 
 ## Data and attribution
 
@@ -22,7 +24,10 @@ Prague. Please credit Golemio when reusing anything here.
 
 ## How the data drives the music
 
-Every musical decision comes from the data — nothing is random:
+This section describes engine v1, the original disco version. Every data-to-music decision is
+deterministic and comes from the data. The only randomness is in two textures: the noise behind the
+hats and the reverb impulse are filled with `Math.random`, so two v1 plays differ very slightly in
+those sounds and nowhere else.
 
 | element | data source |
 |---|---|
@@ -59,6 +64,30 @@ the bassline walks chromatically into every chord change, and the arrangement va
 blocks so long off-peak stretches stay alive. The mix is stereo (plucks left, arpeggio right, pads
 wide) with a −4.5 dB high-shelf at 6 kHz.
 
+## Engine v2
+
+The player has two engines, switched with the `engine v1 | v2` toggle. v2 is the default; v1 is
+unchanged and stays selectable. v2 is a techno engine and is fully deterministic: its noise and
+reverb come from a seeded generator, so a render of the same day is always identical.
+
+v2 reads features the thesis extractor computes against a normal day, not only the raw delay:
+
+- **Density.** The surface network's (bus, tram, trolleybus) delay as a robust z against the median
+  day of the same type sets the arrangement: sparse below 0, full from 0, lifted from 1, extreme
+  from 2 with a two-bar breakdown on entry.
+- **Groove.** The share of stop events more than 90 s late: straight below 10 %, swung from 10 %,
+  half-time above 25 %.
+- **Harmony and timbre.** z climbs a functional ladder (tonic, subdominant, dominant, dominant
+  with tensions, secondary dominants) with one chord per bar and voice-led pads; each rung opens
+  the filters and adds drive.
+- **Echo.** Lag-1 delay persistence between consecutive stops, by hour of day over the whole
+  period, sets the feedback of a dotted-eighth echo. It is the same on every day.
+- **Melody.** The smoothed surface delay, one scale step per 30 s, stepwise in the chord-scale.
+
+States change once per bar, with hysteresis. All thresholds were fixed a priori in robust SD or
+round percentages; none was tuned by listening. Every mapping and number is in
+[docs/ENGINE_V2.md](docs/ENGINE_V2.md).
+
 ## Reproducing the aggregates
 
 `extract_sonification_data.py` regenerates `sonification_days.json` from the project's local
@@ -71,6 +100,18 @@ python extract_sonification_data.py
 
 It selects the five days (criteria documented inline), aggregates stop events into 5-minute bins
 per transport mode, and writes `sonification_days.json`, which `index.html` embeds verbatim.
+
+The v2 features come from `extract_v2.py`, documented in [docs/FEATURES_V2.md](docs/FEATURES_V2.md).
+Its inputs are the thesis DuckDB build of the stop-time history and the PID GTFS `stops.txt`;
+neither is redistributed here. Paths are set with `SONIF_DB`, `SONIF_STOPS` and `SONIF_OUT`
+(defaults: next to the script). `embed_v2_features.py` then writes the part the engine uses
+(about 22 KB, aggregates only) into `index.html` as `const DATA2`, so the intermediate
+`sonification_v2.json` is not committed.
+
+```bash
+SONIF_DB=/path/to/prague_transit.duckdb SONIF_STOPS=/path/to/stops.txt python extract_v2.py
+python embed_v2_features.py sonification_v2.json
+```
 
 ## Homage disclaimer
 
