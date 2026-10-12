@@ -1,8 +1,8 @@
 # Delayed All the Time. On Time, Occasionally.
 
 **A sonification of Prague public transport delays** — a companion piece to a master's thesis on
-delay persistence in the PID network. Five real days from the dataset, played as disco tracks by
-the transport system itself.
+delay persistence in the PID network. Five real days from the dataset, played as disco (v1) and
+techno (v2) tracks by the transport system itself.
 
 Open `index.html` in any browser, or visit the [hosted page](https://sandovabarbora.github.io/delayed-all-the-time/).
 The player is one self-contained file: no server, no build step, no external resources (the three
@@ -84,7 +84,8 @@ v2 reads features the thesis extractor computes against a normal day, not only t
   period, sets the feedback of a dotted-eighth echo. It is the same on every day.
 - **Melody.** The smoothed surface delay, one scale step per 30 s, stepwise in the chord-scale.
 
-States change once per bar, with hysteresis. All thresholds were fixed a priori in robust SD or
+Night windows with fewer than 1 000 surface stop events count as a normal day (z = 0), because
+their z is mostly sampling noise. States change once per bar, with hysteresis. All thresholds were fixed a priori in robust SD or
 round percentages; none was tuned by listening. Every mapping and number is in
 [docs/ENGINE_V2.md](docs/ENGINE_V2.md).
 
