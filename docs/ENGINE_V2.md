@@ -59,11 +59,11 @@ Added 12 October 2026 (see Changes). Computed per bar, from the values at the ba
 | 3 | 3 – 4 – 5 | 0 (3) · 3 (3) · 6 (6) |
 | 4 | 4 – 3 – 2 – 1 | 0 (3) · 3 (3) · 6 (2) · 8 (8) |
 
-- A tresillo (3 + 3 + 2) rhythm in every bar; the melody outlines 1-3-5 and walks 4-3-2-1 home.
+- Bars 1–3 start on a 3 + 3 pattern and bar 4 completes the 3 + 3 + 2; every note starts in the first half of the bar (bar 4's last on the half). The melody outlines 1-3-5 and walks 4-3-2-1 home.
 - It sings from D5 (`HOOK_BASE` 74) on the main lead voice, and repeats every 4 bars from the drop for as long as the chorus lasts. Each degree takes the chord-scale (the day's scale with the current chord's tones replacing degrees of the same letter, as for the data melody), so it never clashes with the harmony.
 - In the verse the lead keeps the data melody. In the chorus the data melody moves an octave down to the second (square) voice as a counter-line; the diatonic third below is not played there.
 
-**Chorus progression.** One chord per bar, restarting at the drop, aligned with the hook: **T – V – Ts – S**. In the major modes this is I–V–vi–IV (lydian: I–V–vi–II, since S is II there); in the minor modes i–V–III–iv. T, Ts and S are the existing chords and voicings. The harmonic rung changes only the V slot (and, from rung 3, the S slot's second half):
+**Chorus progression.** One chord per bar, restarting at the drop, aligned with the hook: **T – V – Ts – S**. In the major modes this is I–V–vi–IV (lydian: I–V–vi–II, since S is II there); in the minor modes i–V–III–iv, except dorian, whose S is a major IV (i–V–III–IV). T, Ts and S are the existing chords and voicings. The harmonic rung changes only the V slot (and, from rung 3, the S slot's second half):
 
 | rung | V slot | S slot |
 |---|---|---|
