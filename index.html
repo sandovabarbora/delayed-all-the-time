@@ -45,11 +45,9 @@ a{color:inherit}
 /* head */
 .bar{display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--line)}
 .bar b{color:var(--fg);font-weight:400}
-.head{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:24px 48px;padding:40px 0 32px;align-items:end}
+.head{padding:40px 0 32px}
 h1{font:400 clamp(36px,5.6vw,72px)/.98 var(--serif);font-variation-settings:"opsz" 144;letter-spacing:-.03em;color:var(--hot);margin:0}
 h1 em{font-style:italic;color:var(--fg-2)}
-.lead{margin:0;max-width:52ch;color:var(--fg)}
-.lead b{font-weight:500;color:var(--hot)}
 
 /* section labels */
 h2{font:400 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--fg-2);margin:0;padding:10px 0;border-bottom:1px solid var(--line)}
@@ -131,6 +129,7 @@ input[type=range]:hover::-moz-range-thumb{background:var(--acid)}
 .jump .lbl{padding:13px 14px 12px 0;border:0}
 .legend{margin:10px 0 0;color:var(--fg-2);font:400 11px/1.6 var(--mono)}
 .legend i{display:inline-block;width:14px;height:8px;background:var(--acid);vertical-align:0;margin-right:6px}
+.legend i.pre{opacity:.35}
 details.tbl{margin-top:10px;border-bottom:1px solid var(--line)}
 details.tbl summary{cursor:pointer;list-style:none;padding:10px 0;font:400 11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--fg-2)}
 details.tbl summary::-webkit-details-marker{display:none}
@@ -163,20 +162,6 @@ details.tbl summary:hover{color:var(--hot)}
 .mix li.silent .nm{text-decoration:line-through;text-decoration-thickness:1px}
 .mix li.silent .lv i{opacity:.25}
 
-/* notes */
-.notes{display:grid;grid-template-columns:1fr 1fr;gap:0 48px}
-.notes ul{list-style:none;margin:0;padding:0}
-.nt summary{list-style:none;cursor:pointer}
-.nt summary::-webkit-details-marker{display:none}
-.nt summary h2::after{content:"−";float:right}
-.nt:not([open]) summary h2::after{content:"+"}
-.nt summary:hover h2{color:var(--hot)}
-.notes li{padding:10px 0;border-bottom:1px solid var(--line);color:var(--fg-2)}
-.notes li b{font-weight:500;color:var(--hot)}
-.notes li .k{display:inline-block;width:8px;height:8px;margin-right:10px;vertical-align:1px}
-.notes p{color:var(--fg-2);margin:14px 0 0;max-width:60ch}
-#moments b{font:400 13px var(--mono);letter-spacing:0;color:var(--hot)}
-
 .credit{margin-top:48px;padding-top:14px;border-top:1px solid var(--line);font:400 11.5px/1.65 var(--mono);color:var(--fg-2);max-width:96ch}
 .credit p{margin:0 0 12px}
 .credit a{color:var(--fg);text-decoration:underline;text-underline-offset:.2em;text-decoration-thickness:1px}
@@ -190,7 +175,7 @@ kbd{font:400 10px var(--mono);border:1px solid var(--line);padding:1px 5px;color
 #toast.show{opacity:1}
 
 @media (max-width:900px){
-  .head{grid-template-columns:1fr;padding:28px 0 24px;gap:16px}
+  .head{padding:28px 0 24px}
   .deck{grid-template-columns:1fr auto}
   .sliders{grid-column:1/-1;max-width:none;justify-self:stretch}
   .mix li{grid-template-columns:8px minmax(0,1fr) 5.5rem 96px;row-gap:2px}
@@ -233,13 +218,9 @@ kbd{font:400 10px var(--mono);border:1px solid var(--line);padding:1px 5px;color
   .mix li{grid-template-columns:8px minmax(0,1fr) auto 88px;gap:0 10px;padding:3px 0}
   .mix .ro{display:none}
   .mix .ms button{width:44px}
-  .notes li{padding:7px 0;font-size:14px}
-  .notes p{font-size:14px}
   .legend{font-size:10.5px}
   .credit{margin-top:32px;font-size:10.5px}
   .mix .ms button{height:44px}
-  .notes{grid-template-columns:1fr}
-  .notes>.nt+.nt{margin-top:8px}
 }
 @media (hover:none){.keys{display:none}}
 @media (prefers-reduced-motion: reduce){ .mix .lv i{transition:none} #toast{transition:none} }
@@ -252,16 +233,6 @@ kbd{font:400 10px var(--mono);border:1px solid var(--line);padding:1px 5px;color
 
   <header class="head">
     <h1>Delayed All the Time.<br><em>On Time, Occasionally.</em></h1>
-    <p class="lead" data-eng="v1">Prague public transport, played as a disco track. Every transport mode is an instrument,
-    <b>traffic density sets the volume</b> and <b>delays detune the chords</b>. The chorus isn't triggered
-    by the clock but by the data: <b>whenever the surface-transport delay climbs past 68 % of that day's own
-    maximum, the city stops keeping up and the track lifts into the chorus</b>. Five days, five moods.
-    Pick one and hear the difference. Every musical decision comes from the data; only the hiss of the hats and the reverb tail are random.</p>
-    <p class="lead" data-eng="v2" hidden>Prague public transport, played as a techno track. The worse the network runs
-    against a normal day, <b>the fuller the arrangement</b>: calm days are kick, bass and pad, extreme ones break down
-    and come back with everything. <b>Lateness sets the groove</b>: straight, swung or half-time by how many stops are
-    over 90 s late. <b>The harmony climbs from home to the dominant</b>, gets brighter and dirtier on the way up,
-    and resolves when the city recovers. Nothing is random.</p>
   </header>
 
   <section aria-labelledby="h-days">
@@ -300,7 +271,7 @@ kbd{font:400 10px var(--mono);border:1px solid var(--line);padding:1px 5px;color
       </div>
       <div class="axis" id="axis" aria-hidden="true"></div>
       <p class="read" id="read" aria-hidden="true"></p>
-      <p class="legend"><i></i>chorus · brightness = stop events in the window · bar height = mean delay, full at 3 min · click a column to jump<span data-eng="v2" hidden> · groove row: height = sparse → extreme, colour = <b style="color:#7E8A97;font-weight:400">straight</b> / <b style="color:#C9B98F;font-weight:400">swung</b> / <b style="color:#E07A5F;font-weight:400">half-time</b></span><span class="keys"> · <kbd>space</kbd> play · <kbd>←</kbd><kbd>→</kbd> ±30 min, in the grid 5 min</span></p>
+      <p class="legend"><i></i>chorus · <span data-eng="v2" hidden><i class="pre"></i>pre-chorus · </span>brightness = stop events in the window · bar height = mean delay, full at 3 min · click a column to jump<span data-eng="v2" hidden> · groove row: height = sparse → extreme, colour = <b style="color:#7E8A97;font-weight:400">straight</b> / <b style="color:#C9B98F;font-weight:400">swung</b> / <b style="color:#E07A5F;font-weight:400">half-time</b></span><span class="keys"> · <kbd>space</kbd> play · <kbd>←</kbd><kbd>→</kbd> ±30 min, in the grid 5 min</span></p>
       <ul class="jump" id="jump"><li class="lbl" aria-hidden="true">jump to</li></ul>
       <details class="tbl" id="tbl"><summary>the day as a table</summary><div class="tw" id="tw"></div></details>
     </div>
@@ -311,60 +282,9 @@ kbd{font:400 10px var(--mono);border:1px solid var(--line);padding:1px 5px;color
     <ul class="mix" id="mixer"></ul>
   </section>
 
-  <section class="notes">
-    <details class="nt" open data-eng="v2" hidden>
-      <summary><h2>What you're hearing · v2</h2></summary>
-      <ul>
-        <li><span class="k" style="background:var(--c-z)"></span><b>Density</b>: the network's delay against a normal day of the same type (z). Below normal: kick, bass and pad only. Normal: the full groove. Over +1 SD: arp, shaker, a second lead voice, open hats. Over +2 SD: a two-bar breakdown, then everything.</li>
-        <li><span class="k" style="background:#E07A5F"></span><b>Groove</b>: the share of bus, tram and trolleybus stops more than 90 s late. Under 10 %: straight 16ths. 10–25 %: swung. Over 25 %: half-time with triplet fills.</li>
-        <li><span class="k" style="background:var(--c-mesto)"></span><b>Harmony and timbre</b>: z climbs tonic → subdominant → dominant → tensions → secondary dominants, one chord per bar, voice-led. Each rung opens the filter and adds drive. Falling back home is a cadence.</li>
-        <li><span class="k" style="background:var(--c-metro)"></span><b>Metro</b>: deep kick and a rolling analogue bass. No metro, no beat.</li>
-        <li><span class="k" style="background:var(--c-tramvaj)"></span><b>Trams</b>: dark hats and plucks; the plucks echo with feedback set by how much delay a tram carries from stop to stop at that hour.</li>
-        <li><span class="k" style="background:var(--c-autobus)"></span><b>Buses</b>: dub chord stabs and the pad. <span class="k" style="background:var(--c-trolejbus)"></span><b>Trolleybuses</b>: claps and cowbell.</li>
-        <li><span class="k" style="background:var(--c-mesto)"></span><b>Voice of the City</b>: one scale step per 30 s of city-wide delay, stepwise, never more than a fifth. Trains stay out of the band; the ferry rings A, the fifth of the key.</li>
-      </ul>
-    </details>
-    <details class="nt" open data-eng="v1">
-      <summary><h2>What you're hearing</h2></summary>
-      <ul>
-        <li><span class="k" style="background:var(--c-metro)"></span><b>Metro</b>: kick drum and bassline. Average delay 7 s, the most reliable pulse in the city. No metro, no beat.</li>
-        <li><span class="k" style="background:var(--c-tramvaj)"></span><b>Trams</b>: hi-hats and funky sixteenth-note plucks.</li>
-        <li><span class="k" style="background:var(--c-autobus)"></span><b>Buses</b>: chord stabs on the off-beat, the backbone of the sound. The later they run, the more detuned the chord.</li>
-        <li><span class="k" style="background:var(--c-mesto)"></span><b>Voice of the City</b>: the lead. Its melody is the city-wide average delay quantised to the scale: the later Prague runs, the higher it sings. Always in tune.</li>
-        <li><span class="k" style="background:var(--c-vlak)"></span><b>Trains</b>: kicked out of the band. Averaging 111 s late on a typical weekday, they played so out of tune they broke the whole song. Still shown in the grid; never getting the mic back.</li>
-        <li><span class="k" style="background:var(--c-trolejbus)"></span><b>Trolleybuses</b>: claps on 2 &amp; 4, cowbell in the rush.</li>
-        <li><span class="k" style="background:var(--c-privoz)"></span><b>Ferry</b>: a bell. On a typical Tuesday it rings three times all day; in summer the river gets a whole verse of its own.</li>
-      </ul>
-    </details>
-    <details class="nt" open>
-      <summary><h2>Song structure</h2></summary>
-      <ul id="moments"></ul>
-      <p data-eng="v2" hidden>Each day keeps v1's key rule: D, with the mode chosen by the day's average delay,
-      from Lydian for calm days down to Phrygian for the Meltdown. Every state is decided once per bar from the
-      data at the downbeat, with hysteresis, so nothing flickers; the thresholds are fixed in standard deviations
-      and percentages, not tuned to the five days. The grid's bottom row shows the groove (colour) and density
-      (height). Every number: docs/ENGINE_V2.md.</p>
-      <p data-eng="v1">Each day sings in its own key, chosen by its average delay: calm days float in Lydian,
-      ordinary days groove in Dorian, and the worse the city runs, the darker the mode, all the way
-      down to Phrygian for the Meltdown. The groove swings, and everything melodic pumps around
-      the metro's kick drum. In the chorus a pad, an arpeggio and a tambourine join in, and the chords
-      lift and change twice as fast. Right before it the beat cuts out for a two-beat break:
-      snare roll, riser, crash, drop. The day plays on a loop: at midnight it starts over,
-      because public transport does too.</p>
-    </details>
-  </section>
-
   <footer class="credit">
-  <p>Data: Prague Integrated Transport (PID) stop-time history, provided by
-  <a href="https://golemio.cz" target="_blank" rel="noopener">Golemio</a>, the open-data platform of
-  Operator ICT / City of Prague. Source records cover 15 March to 8 September 2025; the five days
-  played here are aggregated into 5-minute windows per mode (event count, mean and 90th-percentile
-  arrival delay). No raw records are redistributed. Please credit Golemio when reusing this material.
-  A sonification companion to a master's thesis on delay cascades in Prague public transport.</p>
-  <p>Title and structure are a loving homage to the disco-revival tradition; the phrasing of the
-  title riffs on contemporary pop-album naming. No affiliation with, or endorsement by, any artist
-  or label, and no audio was sampled: every sound is synthesised in the browser from
-  public-transport data. Any resemblance to an actual banger is purely statistical.</p>
+  <p>Data: PID stop-time history, Golemio / Operátor ICT. Aggregates only.</p>
+  <p><a href="https://bsandova.com/texts/delayed">How it works → bsandova.com/texts/delayed</a></p>
   </footer>
 </div>
 <div id="toast" role="status">Ferry!</div>
@@ -450,23 +370,7 @@ function computeDay(raw){
   for (let i=0;i<BINS;i++){ let acc=0; const row=[];
     for (const k of stackOrder){ acc+=Math.sqrt(gd(k,i,"n")); row.push(acc); }
     stacks[i]=row; stackMax=Math.max(stackMax,acc); }
-  // moments html
-  const ferryTxt = ferryBins.length===0 ? "" :
-    ferryBins.length<=4
-      ? `<li><b>${ferryBins.map(binTime).join(", ")}</b> — the ferry. The bell rings only ${ferryBins.length}× all day.</li>`
-      : `<li><b>${binTime(ferryBins[0])}–${binTime(ferryBins[ferryBins.length-1])}</b> — ferry season: the bell rings ${ferryBins.length}× today.</li>`;
-  const chorusTxt = chorusBlocks.map(([a,b])=>{
-    const hasPeak = delayPeakBin>=a && delayPeakBin<b;
-    return `<li><b>${binTime(a)}–${binTime(b)}</b> — chorus${hasPeak?`; delay peaks at ${Math.round(wmax)} s at ${binTime(delayPeakBin)}`:""}.</li>`;
-  }).join("");
-  const momentsHTML = [
-    `<li><b>Key: ${keyName}</b> — ${keyVibe}. Chosen by the day's average delay of ${Math.round(meanDelay)} s.</li>`,
-    `<li><b>${binTime(lastMetro+1)}</b> — last metro, the beat disappears. Night is the intro: only night buses and trams.</li>`,
-    firstMetro>=0?`<li><b>${binTime(firstMetro)}</b> — first morning metro. The drop; the verse begins.</li>`:"",
-    chorusTxt || `<li>No chorus today — the city never stopped keeping up. That's the whole story.</li>`,
-    ferryTxt,
-  ].join("");
-  return {raw, act, gd, wsm, wmax, SECT, chorusBlocks, firstMetro, lastMetro, ferryBins, delayPeakBin, stackOrder, stacks, stackMax, momentsHTML, meanDelay, keyName, keyVibe, PROG, CPROG, leadScale, S, modeName:Object.keys(SCALES).find(k=>SCALES[k]===S)};
+  return {raw, act, gd, wsm, wmax, SECT, chorusBlocks, firstMetro, lastMetro, ferryBins, delayPeakBin, stackOrder, stacks, stackMax, meanDelay, keyName, keyVibe, PROG, CPROG, leadScale, S, modeName:Object.keys(SCALES).find(k=>SCALES[k]===S)};
 }
 
 const cache={};
@@ -839,7 +743,29 @@ const V2 = {
   SEC_PER_STEP:30, LEAD_BASE:62, LEAD_TOP:14, LEAD_DATA_TOP:10, MAX_LEAP:4,
   FB_MAX:0.55, VOICE_LO:55, VOICE_HI:76,
   MIN_SURF_N:1000,                        // a window's z counts only with ≥ 1 000 surface stop events; else z = 0 (docs: Changes)
+  // FORM (song structure), fixed a priori before any render (docs: Form):
+  CHORUS_Q:0.75,                          // chorus = bars whose downbeat window's smoothed surface delay ≥ the day's 75th percentile
+  CHORUS_MIN:2, CHORUS_GAP:2,             // chorus at least 2 bars; verse gaps under 2 bars between choruses are merged
+  PRE:2,                                  // pre-chorus: the 2 bars before each chorus (riser, snare roll)
+  HOOK_BASE:74,                           // the hook sings from D5, above the data melody
 };
+// the chorus hook: one fixed 4-bar motif, [16th position, scale degree (0 = tonic), length in 16ths].
+// Degrees 1-3-5 | 4-3-2 | 3-4-5 | 4-3-2-1 on a tresillo (3+3+2) rhythm; the same every day, in the day's mode.
+const HOOK_C=[
+  [[0,0,3],[3,2,3],[6,4,6]],
+  [[0,3,3],[3,2,3],[6,1,6]],
+  [[0,2,3],[3,3,3],[6,4,6]],
+  [[0,3,3],[3,2,3],[6,1,2],[8,0,8]],
+];
+// chorus progression, one chord per bar: T – V – Ts – S (I–V–vi–IV in the major modes, i–V–III–iv in the minor ones).
+// The harmonic rung only changes the V slot (and adds a dominant to the S slot's second half from rung 3).
+function chorusPair(L,k){
+  if (k===0) return ["T","T"];
+  if (k===2) return ["Ts","Ts"];
+  if (k===1) return L<=1?["V5","V5"] : L===2?["D","D"] : L===3?["Dt","Dt"] : ["VV","Dt"];
+  return L>=3?["S","Dt"]:["S","S"];
+}
+const FORMNAME=["verse","pre-chorus","drop","chorus"];
 // timbre by harmonic rung (fixed table): music-bus low-pass, pad filter centre, saturation drive
 const TIMBRE=[
   {cut:1400, pad:450,  drive:1.0},   // tonic: dark and soft
@@ -874,6 +800,8 @@ function v2Chords(S, mode){
   if (S[1]===1) Dt.push([1,1]);        // + ♯11 (D♯ = E♭), diatonic only in phrygian
   const CH={
     T:diat(0), Ts:diat(major?5:2), S:diat(mode==="lydian"?1:3), D, Dt,
+    // V5: the diatonic seventh on degree 5 (the chorus's soft V); phrygian's is diminished, so it takes A7
+    V5: S[1]===1 ? D : diat(4),
     VV:[[1,2],[3,6],[5,9],[0,0]],      // E7 = V/V
     DIM:[[3,6],[5,9],[0,0],[2,3]],     // G♯°7 = vii°7/V
   };
@@ -937,7 +865,13 @@ function computeV2(raw, d1){
     s90[i]=b?a/b:0; }
   // persistence → echo feedback per hour (network property, the same on every day)
   const fb=k=>DATA2.pers[k].map(r=>Math.min(V2.FB_MAX, V2.FB_MAX*Math.max(0,r)*Math.max(0,r)));
-  return {z, zr, s90, type:dv.type, fbTram:fb("tram"), fbSurf:fb("surface"), CH:v2Chords(d1.S, d1.modeName), plans:{}};
+  // FORM: the day's own top quartile of smoothed surface delay, over reliable windows only (same 1 000-event rule)
+  const okW=[]; for (let i=0;i<BINS;i++) if (nSurf(i)>=V2.MIN_SURF_N) okW.push(i);
+  const sv=okW.map(i=>d1.wsm[i]).sort((a,b)=>a-b);
+  const qp=(sv.length-1)*V2.CHORUS_Q, qlo=Math.floor(qp);
+  const q75=sv.length?sv[qlo]+(sv[Math.min(qlo+1,sv.length-1)]-sv[qlo])*(qp-qlo):Infinity; // linear interpolation
+  const hot=new Uint8Array(BINS); for (const i of okW) if (d1.wsm[i]>=q75) hot[i]=1;
+  return {z, zr, s90, hot, q75, type:dv.type, fbTram:fb("tram"), fbSurf:fb("surface"), CH:v2Chords(d1.S, d1.modeName), plans:{}};
 }
 
 // ---- plan for one scale (bars): states, chords, voicings, melody, and a per-bin view for the UI ----
@@ -945,6 +879,16 @@ function planV2(V, d1, spb){
   if (V.plans[spb]) return V.plans[spb];
   const NBAR=BINS*spb/16, slots=new Array(NBAR*2);
   const lev=new Int8Array(NBAR), dens=new Int8Array(NBAR), groove=new Int8Array(NBAR), brk=new Int8Array(NBAR), cad=new Uint8Array(NBAR);
+  // FORM layer: verse 0, pre-chorus 1, drop 2 (first chorus bar), chorus 3; cb = bars since the chorus began
+  const form=new Int8Array(NBAR), cb=new Int16Array(NBAR).fill(-1);
+  { const c=new Uint8Array(NBAR); for (let b=0;b<NBAR;b++) c[b]=V.hot[Math.floor(b*16/spb)];
+    const runs=()=>{ const r=[]; let s=0; for (let i=1;i<=NBAR;i++) if (i===NBAR||c[i]!==c[s]){ r.push([s,i,c[s]]); s=i; } return r; };
+    for (const [a,e,v] of runs()) if (!v && e-a<V2.CHORUS_GAP && a>0 && e<NBAR) c.fill(1,a,e);  // merge short gaps
+    for (const [a,e,v] of runs()) if (v && e-a<V2.CHORUS_MIN) c.fill(0,a,e);                 // drop short choruses
+    for (const [a,e,v] of runs()) if (v){
+      for (let b=a;b<e;b++){ form[b]=b===a?2:3; cb[b]=b-a; }
+      for (let b=Math.max(0,a-V2.PRE);b<a;b++) if (!c[b]) form[b]=1;
+    } }
   let L=0, Dn=1, G=0, phase=0;
   for (let b=0;b<NBAR;b++){
     const bin=Math.floor(b*16/spb), z=V.zr[bin], s=V.s90[bin];
@@ -966,11 +910,17 @@ function planV2(V, d1, spb){
     groove[b]=G;
     // chords: one change per bar (cell alternates every bar); rungs 3–4 also on the half bar
     let pair;
-    if (cad[b]){ pair=["Dt","T"]; phase=0; }
+    if (form[b]>=2){ pair=chorusPair(L,cb[b]%4); cad[b]=0; phase=0; }           // chorus: the fixed progression
+    else if (cad[b]){ pair=["Dt","T"]; phase=0; }
     else { const c=CELLS[L][phase%2]; pair=Array.isArray(c)?c:[c,c]; }
+    if (form[b]===1 && b+1<NBAR && form[b+1]===2) pair=[pair[0], chorusPair(L,1)[1]]; // half cadence into the drop
     phase++;
     slots[2*b]=V.CH[pair[0]]; slots[2*b+1]=V.CH[pair[1]];
   }
+  // the chorus arrangement sits one density step above the mood state (clamped at extreme);
+  // the extreme-state breakdown only happens in the verse, since the pre-chorus is the build
+  const edens=new Int8Array(NBAR);
+  for (let b=0;b<NBAR;b++){ edens[b]=form[b]>=2?Math.min(3,dens[b]+1):dens[b]; if (form[b]) brk[b]=0; }
   const voic=new Array(slots.length); let pv=null;
   for (let i=0;i<slots.length;i++){
     if (i>0 && slots[i]===slots[i-1]){ voic[i]=pv; continue; }
@@ -1009,31 +959,20 @@ function planV2(V, d1, spb){
     }
     notes[b]=bar;
   }
-  // per-bin view for the grid, readout, table and moments
+  // the hook: in every chorus bar the lead sings bar (cb mod 4) of the motif, each degree taken from the chord-scale
+  const hook=new Array(NBAR);
+  for (let b=0;b<NBAR;b++) if (form[b]>=2) hook[b]=HOOK_C[cb[b]%4].map(([pos,deg,len])=>{
+    const sc=scaleOf(slots[Math.floor((b*16+pos)/8)]);
+    return {pos, midi:V2.HOOK_BASE+sc[deg%7]+12*Math.floor(deg/7), dur:len/4};
+  });
+  // per-bin view for the grid, readout and table. SECT: 0 night, 1 verse, 2 chorus, 3 pre-chorus, 4 drop
   const view={SECT:new Int8Array(BINS), dens:new Int8Array(BINS), groove:new Int8Array(BINS), lev:new Int8Array(BINS)};
   for (let i=0;i<BINS;i++){ const b=Math.floor(i*spb/16);
     view.dens[i]=dens[b]; view.groove[i]=groove[b]; view.lev[i]=lev[b];
-    view.SECT[i]=(d1.gd("metro",i,"n")===0&&(i<60||i>270))?0:dens[b]>=2?2:1; } // v1's night rule
-  view.chorusBlocks=runsOf(view.SECT).filter(r=>r[2]===2);
-  const PL={slots, voic, notes, NBAR, lev, dens, groove, brk, cad, view};
-  view.momentsHTML=v2Moments(V,d1,PL);
-  return V.plans[spb]=PL;
-}
-function v2Moments(V,d1,PL){
-  const v=PL.view, first=(arr,x)=>{ for (let i=0;i<BINS;i++) if (arr[i]>=x) return i; return -1; };
-  const share=g=>Math.round(100*[...PL.groove].filter(x=>x===g).length/PL.NBAR);
-  const lifted=v.chorusBlocks, ext=first(v.dens,3), dom=first(v.lev,2), type=V.type.replace("_"," / ");
-  return [
-    `<li><b>Key: ${d1.keyName}</b> — ${d1.keyVibe}. Chosen by the day's average delay of ${Math.round(d1.meanDelay)} s (the v1 rule).</li>`,
-    `<li><b>Groove</b> — ${share(0)} % straight, ${share(1)} % swung, ${share(2)} % half-time, from the share of stop events more than 90 s late.</li>`,
-    `<li><b>${binTime(d1.lastMetro+1)}</b> — last metro, the beat disappears.</li>`,
-    d1.firstMetro>=0?`<li><b>${binTime(d1.firstMetro)}</b> — first morning metro. The drop.</li>`:"",
-    lifted.length ? lifted.slice(0,4).map(([a,b])=>`<li><b>${binTime(a)}–${binTime(b)}</b> — lifted: the network runs more than one standard deviation later than a normal ${type}.</li>`).join("")
-      : `<li>Never lifted — the network never ran a standard deviation later than a normal ${type}.</li>`,
-    ext>=0?`<li><b>${binTime(ext)}</b> — extreme: breakdown, then everything at once.</li>`:"",
-    dom>=0?`<li><b>${binTime(dom)}</b> — the harmony first reaches the dominant (${V.CH.D.name}).</li>`
-      :`<li>The harmony never leaves the tonic region (${V.CH.T.name}, ${V.CH.Ts.name}, ${V.CH.S.name}).</li>`,
-  ].join("");
+    view.SECT[i]=form[b]===3?2:form[b]===2?4:form[b]===1?3:(d1.gd("metro",i,"n")===0&&(i<60||i>270))?0:1; } // v1's night rule
+  view.chorusBlocks=runsOf(view.SECT.map(s=>s===4?2:s)).filter(r=>r[2]===2);
+  view.preBlocks=runsOf(view.SECT).filter(r=>r[2]===3);
+  return V.plans[spb]={slots, voic, notes, hook, NBAR, lev, dens, edens, form, groove, brk, cad, view};
 }
 
 // ---- audio graph ----
@@ -1192,6 +1131,12 @@ const v2 = {
     const vs=ctx.createGain(); vs.gain.value=0.5; g.connect(vs); vs.connect(G2.send);
     s.start(t); s.stop(t+1.7);
   },
+  boom(t){ // the drop's impact: a long sub sine falling 70 → 32 Hz
+    const o=ctx.createOscillator(), g=ctx.createGain();
+    o.frequency.setValueAtTime(70,t); o.frequency.exponentialRampToValueAtTime(32,t+1.2);
+    g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(0.42,t+0.005); g.gain.exponentialRampToValueAtTime(0.0001,t+1.4);
+    o.connect(g); g.connect(G2.mix); o.start(t); o.stop(t+1.5);
+  },
   riser(t,dur){
     const s=noiseSrc(), f=ctx.createBiquadFilter(); f.type="bandpass"; f.Q.value=1.4;
     f.frequency.setValueAtTime(250,t); f.frequency.exponentialRampToValueAtTime(6000,t+dur);
@@ -1263,7 +1208,10 @@ function scheduleV2(st,t){
   const V=cur.v2, PL=planV2(V,cur,SPB), NS=PL.NBAR*2;
   const bin=Math.floor(st/SPB)%BINS, b=Math.floor(st/16)%PL.NBAR, s16=st%16, sub=st%4, bib=s16>>2;
   const spb=60/bpm, d16=spb/4;
-  const L=PL.lev[b], Dn=PL.dens[b], G=PL.groove[b], brk=PL.brk[b], pb=(b-1+PL.NBAR)%PL.NBAR;
+  const L=PL.lev[b], Dn=PL.edens[b], G=PL.groove[b], brk=PL.brk[b], pb=(b-1+PL.NBAR)%PL.NBAR;
+  const F=PL.form[b], inCh=F>=2, drop=F===2;
+  const pre=F===1 ? (b+1<PL.NBAR && PL.form[b+1]===1 ? 1 : 2) : 0; // pre-chorus bar 1 or 2
+  const gap=pre===2 && bib===3;                                     // the last beat before the drop holds its breath
   const tt=(G===1 && st%2===1) ? t+V2.SWING*d16 : t; // the swung state delays every odd 16th
   const slot=Math.floor(st/8)%NS, ch=PL.slots[slot], vo=PL.voic[slot];
   const a=k=>silent(k)?0:cur.act[k][bin];
@@ -1273,7 +1221,8 @@ function scheduleV2(st,t){
     G2.echoT.fb.gain.setTargetAtTime(V.fbTram[hour],t,0.3); G2.echoL.fb.gain.setTargetAtTime(V.fbSurf[hour],t,0.3); }
   if (b!==G2.lastBar){ G2.lastBar=b; v2Timbre(L,t);
     G2.trim.gain.setTargetAtTime(Math.pow(10,V2.TRIM_DB[Dn]/20),t,0.3);
-    if (!brk && Dn>=2 && s16===0 && (PL.dens[pb]<2 || PL.brk[pb])) v2.crash(t); }
+    if (drop && s16===0){ v2.crash(t); v2.boom(t); }
+    else if (!brk && Dn>=2 && s16===0 && (PL.edens[pb]<2 || PL.brk[pb])) v2.crash(t); }
   const ab=a("autobus"), am=a("metro"), at=a("tramvaj"), ao=a("trolejbus"), al=a("město");
   // pad: always present; the only harmony in the sparse state
   if (G2.pad){
@@ -1282,10 +1231,21 @@ function scheduleV2(st,t){
     if (sub===0) G2.pad.bus.gain.setTargetAtTime([0.2,0.11,0.14,0.16][Dn]*(0.5+0.5*ab),t,0.15);
   }
   const lead=()=>{ if (al<=0.02 || Dn<1) return;
-    const n=PL.notes[b].find(x=>x.pos===s16); if (!n) return;
+    const n=PL.notes[b].find(x=>x.pos===s16);
+    if (inCh){ // chorus: the hook takes the lead; the data melody becomes a counter-line an octave down on the second voice
+      const h=PL.hook[b].find(x=>x.pos===s16);
+      if (h) v2.lead(tt,h.midi,0.13*(0.4+0.6*al)*boost,spb*h.dur,0);
+      if (n) v2.lead(tt,n.midi-12,0.06*(0.4+0.6*al),spb*n.dur,1);
+      return; }
+    if (!n) return;
     v2.lead(tt,n.midi,0.12*(0.4+0.6*al)*boost,spb*n.dur,0);
     if (Dn>=2 && n.midi2!==null) v2.lead(tt,n.midi2,0.07*(0.4+0.6*al),spb*n.dur,1); };
-  if (brk){
+  if (pre){ // pre-chorus build: a two-bar riser, an 8th then 16th snare roll in crescendo
+    if (pre===1 && s16===0) v2.riser(t,spb*8);
+    if (pre===1 ? sub%2===0 : true) v2.snare(t,(pre===1?0.04:0.08)+0.05*s16/16);
+  }
+  if (gap){ lead(); }
+  else if (brk){
     // breakdown on entering the extreme state: kick, bass and drums drop for two bars; pad, lead and a riser
     if (brk===1 && s16===0) v2.riser(t,spb*8);
     if (brk===2 && bib>=2) v2.snare(t,0.06+0.03*(s16-8)/2);
@@ -1300,8 +1260,9 @@ function scheduleV2(st,t){
         v2.bass(tt,note,(sub===2?0.5:0.4)*am*boost,TIMBRE[L].drive/4.5);
       }
     }
-    if (Dn>=1){
-      const fill=G===2 && b%4===3 && bib>=2; // half-time: triplet fill over the last two beats of each 4-bar loop
+    if (drop) lead(); // the drop bar: kick, bass, pad, impact and the hook; the upper groove enters on the next bar
+    else if (Dn>=1){
+      const fill=G===2 && b%4===3 && bib>=2 && !pre; // half-time: triplet fill over the last two beats of each 4-bar loop
       if (at>0.02){
         if (fill){ if (sub===0) for (let k=0;k<6;k++) v2.hat(t+k*spb/6,0.08*at*(k%2?0.7:1),false); }
         else if (on("hat",G,s16)) v2.hat(tt,0.1*at*boost*(s16%4===2?1:0.6), Dn>=2 && s16%8===6);
@@ -1318,7 +1279,7 @@ function scheduleV2(st,t){
       }
       lead();
     }
-    if (Dn>=2){
+    if (Dn>=2 && !drop){
       if (at>0.02) v2.shaker(tt,0.045*at*(st%2?1:0.6));
       if (ab>0.02 && (G<2 || st%2===0)) v2.arp(tt,vo[st%4]+12+(st%8<4?0:12),0.05*ab);
       if (ao>0.02 && (ao>0.6||Dn>=3) && on("cow",G,s16)) v2.cowbell(tt,ao);
@@ -1428,7 +1389,8 @@ document.getElementById("vol").addEventListener("input",e=>{
 });
 
 // ---------- seeking ----------
-const SECTNAME=["night","verse","chorus"];
+const SECTNAME=["night","verse","chorus","pre-chorus","drop"];
+const isCh = s => s===2||s===4;
 const cv=document.getElementById("cv");
 function seekTo(bin){
   step=((bin%BINS+BINS)%BINS)*SPB;
@@ -1521,6 +1483,7 @@ function drawLayer(){
   // chorus strip
   lg.fillStyle=ACID;
   for (const [a,b] of chorusBlocks()) lg.fillRect(a*cw,0,(b-a)*cw,STRIP-3);
+  if (engine==="v2"){ lg.fillStyle=rgba(ACID,0.35); for (const [a,b] of v2View().preBlocks) lg.fillRect(a*cw,0,(b-a)*cw,STRIP-3); }
   ROWS.forEach((r,ri)=>{
     const y0=STRIP+ri*RH, ch=RH-3, c=color(r.m);
     const dim=(r.key==="vlak"||silent(r.key))?0.35:1;
@@ -1591,7 +1554,7 @@ function showRead(bin){
     const n=getD(r.key,bin,"n");
     return n>0?`<span>${r.m.name.toLowerCase()} <b>${n}</b> · ${Math.round(getD(r.key,bin,"delay"))} s</span>`:"";
   }).filter(Boolean).join(" ");
-  readEl.innerHTML=`<span><b>${binTime(bin)}</b> <i class="${s===2?"ch":""}">${SECTNAME[s]}</i></span> `+
+  readEl.innerHTML=`<span><b>${binTime(bin)}</b> <i class="${isCh(s)?"ch":""}">${SECTNAME[s]}</i></span> `+
     `<span>city <b>${Math.round(cur.wsm[bin])} s</b> late</span> `+v2Read(bin)+`${rows||"<span>all quiet</span>"}`;
 }
 function v2Read(bin){
@@ -1610,7 +1573,7 @@ function buildTable(){
   const head=`<tr><th scope="col">time</th><th scope="col">section</th>${cols.map(r=>`<th scope="col">${r.m.name.toLowerCase()}<br>events · s</th>`).join("")}<th scope="col">city delay, s</th><th scope="col">anomaly z</th></tr>`;
   let body="";
   for (let i=0;i<BINS;i++){
-    body+=`<tr${SECTS()[i]===2?' class="c"':""}><th scope="row" style="text-align:left;position:static;border:0;padding:4px 10px;color:var(--fg)">${binTime(i)}</th><td>${SECTNAME[SECTS()[i]]}</td>`+
+    body+=`<tr${isCh(SECTS()[i])?' class="c"':""}><th scope="row" style="text-align:left;position:static;border:0;padding:4px 10px;color:var(--fg)">${binTime(i)}</th><td>${SECTNAME[SECTS()[i]]}</td>`+
       cols.map(r=>{ const n=getD(r.key,i,"n"); return `<td>${n>0?n+" · "+Math.round(getD(r.key,i,"delay")):"–"}</td>`; }).join("")+
       `<td>${Math.round(cur.wsm[i])}</td><td>${cur.v2.z[i]===null?"–":cur.v2.z[i].toFixed(2)}</td></tr>`;
   }
@@ -1653,7 +1616,7 @@ function buildJumps(){
   const defs=[
     {l:"night", b:()=>(cur.lastMetro+3)%BINS},
     cur.firstMetro>=0&&{l:"first metro "+binTime(cur.firstMetro), b:()=>cur.firstMetro},
-    ...chorusBlocks().slice(0,3).map(blk=>({l:"chorus "+binTime(blk[0]), b:()=>blk[0]-2})),
+    ...chorusBlocks().slice(0,3).map(blk=>({l:"chorus "+binTime(blk[0]), b:()=>Math.max(0,blk[0]-(engine==="v2"?V2.PRE*16/SPB:2))})),
     {l:"delay peak "+binTime(cur.delayPeakBin), b:()=>cur.delayPeakBin},
     cur.ferryBins.length&&{l:"ferry", b:()=>{const v=cur.ferryBins[ferryIdx%cur.ferryBins.length]; ferryIdx++; return v;}},
   ].filter(Boolean);
@@ -1671,7 +1634,6 @@ function loadDay(idx){
   cur = cache[raw.id] || (cache[raw.id]=computeDay(raw));
   if (!cur.v2) cur.v2=computeV2(raw,cur);
   document.getElementById("daymeta").textContent=raw.disc+" · "+raw.total.toLocaleString("en-US")+" stop events · "+cur.keyName;
-  document.getElementById("moments").innerHTML=engine==="v2"?v2View().momentsHTML:cur.momentsHTML;
   buildJumps();
   dayBtns.forEach((b,i)=>b.setAttribute("aria-pressed",i===idx));
   lastFerryBin=-1; lastLeadMidi=null; lastBin=-1; layerKey="";
@@ -1700,7 +1662,7 @@ function frame(){
     clockEl.textContent=binTime(bin);
     const s=SECTS()[bin];
     sectEl.textContent=SECTNAME[s];
-    sectEl.className="lbl s"+s;
+    sectEl.className="lbl s"+(isCh(s)?2:s);
     if (hoverBin<0) showRead(bin);
     for (const m of BAND){
       const aa=silent(m.key)?0:cur.act[m.key][bin];
@@ -1716,8 +1678,6 @@ function frame(){
   drawGrid(curStep/SPB);
   requestAnimationFrame(frame);
 }
-// phones: the two explanatory notes start folded, one tap away
-if (window.matchMedia("(max-width:600px)").matches) document.querySelectorAll(".nt").forEach(d=>d.open=false);
 sizeGrid();
 applyEngineUI();
 loadDay(0);
