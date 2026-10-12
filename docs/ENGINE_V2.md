@@ -12,7 +12,7 @@ All constants are in `const V2` and `const TIMBRE` in `index.html`.
 
 ## Data used
 
-`embed_v2_features.py` takes `sonification_v2.json` from the thesis extractor and writes `const DATA2` into `index.html` (about 22 KB, aggregates only).
+`embed_v2_features.py` takes `sonification_v2.json` from the thesis extractor `extract_v2.py` ([FEATURES_V2.md](FEATURES_V2.md)) and writes `const DATA2` into `index.html` (about 22 KB, aggregates only).
 
 | feature | used for |
 |---|---|
@@ -74,7 +74,7 @@ The five drive curves run in parallel and are crossfaded per bar (40 ms), so the
   - The hysteresis is 2.5 points, a quarter of the narrowest class.
   - Consequence: the busy days (typical, school, meltdown) are mostly half-time in the morning rush, and the calm days (Easter, summer Sunday) swing.
 - **Swing 62 %.** The standard drum-machine shuffle setting; 66.7 % would already be a full triplet.
-- **Master trim −5 / −2 / −1 / 0 dB by density.** It sits after the limiter, so the compressors cannot level it away and a sparse day is also quieter. It was set from the measured loudness of the first renders, not by listening.
+- **Master trim −5 / −2 / −1 / 0 dB by density.** It sits after the limiter, so the compressors cannot level it away and a sparse day is also quieter. This is a mix decision, not a data-mapping threshold: the values were set from the measured loudness of the first renders. No mapping threshold (z, lateness share, persistence, melody step) was tuned by listening.
 
 ## Chords, voicing and key
 
