@@ -59,6 +59,21 @@ the bassline walks chromatically into every chord change, and the arrangement va
 blocks so long off-peak stretches stay alive. The mix is stereo (plucks left, arpeggio right, pads
 wide) with a −4.5 dB high-shelf at 6 kHz.
 
+## Engine v2
+
+The player has two engines (toggle `engine v1 | v2`; v2 is the default). The section above
+describes v1. v2 uses v2 data features: anomaly z against a normal day of the same type, lateness
+classes and delay persistence. It turns them into music:
+
+- **Rhythm:** lateness displaces each mode's hits inside the metre (laid back, a 16th late, triplet).
+- **Harmony:** z climbs a functional ladder (tonic → subdominant → dominant → tensions →
+  secondary dominants), with hysteresis, voice-led pads and cadences on the way down.
+- **Echo:** persistence sets the feedback of a dotted-eighth echo.
+- **Chorus:** starts only when z > +1.
+
+Every mapping and number is in [docs/ENGINE_V2.md](docs/ENGINE_V2.md). `embed_v2_features.py`
+embeds the features the engine uses (about 26 KB, aggregates only) from `sonification_v2.json`.
+
 ## Reproducing the aggregates
 
 `extract_sonification_data.py` regenerates `sonification_days.json` from the project's local
